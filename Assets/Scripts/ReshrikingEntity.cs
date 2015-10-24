@@ -13,7 +13,7 @@ public class ReshrikingEntity : MonoBehaviour, IReshrink {
 
 	public event System.Action OnMinumSizeReached;
 
-	public virtual void Start () {
+	public virtual void Awake () {
 		minimumReached = false;
 		multiplier = startingMultiplier;
 		initialScale = transform.localScale;

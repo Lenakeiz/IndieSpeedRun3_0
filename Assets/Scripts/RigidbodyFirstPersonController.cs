@@ -123,12 +123,13 @@ namespace UnityStandardAssets.Characters.FirstPerson
 		private void UpdateParameters(){
 			m_Jump = false;
 			m_Jumping = true;
-			m_RigidBody.mass -= advancedSettings.massStepDecrease;
+			if(m_RigidBody.mass - advancedSettings.massStepDecrease > 0)
+				m_RigidBody.mass -= advancedSettings.massStepDecrease;
 		}
 
-		public override void Start()
+		public override void Awake()
         {
-			base.Start();
+			base.Awake();
             m_RigidBody = GetComponent<Rigidbody>();
             m_Capsule = GetComponent<CapsuleCollider>();
 			m_gunController = GetComponent<GunController>();
