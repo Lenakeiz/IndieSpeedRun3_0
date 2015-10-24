@@ -28,6 +28,11 @@ public class MapController : MonoBehaviour {
 		
 	}
 
+	Vector3[] positions;
+	Quaternion[] rotations;
+	Vector3[] scales;
+	GameObject[] objects;
+
 	public GameObject tilePrefab;
 	public int MapSizeX;
 	public int MapSizeY;
@@ -35,9 +40,38 @@ public class MapController : MonoBehaviour {
 	public int tileTrapPercentage = 10;
 	Transform[,] tileMap;
 
+	void OnAwake()
+	{
+		objects = GameObject.FindGameObjectsWithTag ("Object");
+		positions = new Vector3[objects.Length];
+		rotations = new Quaternion[objects.Length];
+		scales = new Vector3[objects.Length];
+		for(int i = 0; i < objects.Length; ++i)
+		{
+			positions[i] = objects[i].transform.position;
+			rotations[i] = objects[i].transform.rotation;
+			scales[i] = objects[i].transform.localScale;
+		}
+	}
+
 	public void Start()
 	{
 		//GenerateMap();
+
+	}
+
+	public void Reset()
+	{
+		for (int i = 0; i < objects.Length; ++i) {
+			if(!objects[i].GetActive())
+				objects[i].SetActive(true);
+
+			objects[i].transform.position = positions[i];
+			objects[i].transform.rotation = rotations[i];
+			objects[i].transform.localScale = scales[i];
+
+		
+		}
 
 	}
 
