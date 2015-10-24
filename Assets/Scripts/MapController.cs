@@ -42,6 +42,12 @@ public class MapController : MonoBehaviour {
 
 	void OnAwake()
 	{
+	
+	}
+
+	public void Start()
+	{
+		//GenerateMap();
 		objects = GameObject.FindGameObjectsWithTag ("NetworkingObject");
 		positions = new Vector3[objects.Length];
 		rotations = new Quaternion[objects.Length];
@@ -52,12 +58,6 @@ public class MapController : MonoBehaviour {
 			rotations[i] = objects[i].transform.rotation;
 			scales[i] = objects[i].transform.localScale;
 		}
-	}
-
-	public void Start()
-	{
-		//GenerateMap();
-
 	}
 
 	public void Reset()

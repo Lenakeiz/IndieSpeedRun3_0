@@ -17,6 +17,9 @@ public class NetworkManager : MonoBehaviour {
 
 	Text winText;
 
+	public GameObject aMainMenu;
+	public GameObject aWinText;
+
 
 	public int totalPlayers = 0;
 	public int totalDead = 0;
@@ -27,10 +30,11 @@ public class NetworkManager : MonoBehaviour {
 	// Use this for initialization
 	void OnEnable () {
 		PhotonNetwork.playerName = "Cool Dude";
-		mainMenu = GameObject.Find ("MainMenu");
+		mainMenu = aMainMenu;
+		if (mainMenu == null)
+			Debug.LogError ("You need to put the MainMenu into NetworkManager");
 		spawnIsTaken = new bool[spawnPoints.Length];
-		
-		winText = GameObject.Find ("WinText").GetComponent<Text> ();
+		winText = aWinText.GetComponent<Text> ();
 		if(winText)
 			winText.enabled = false;
 	}
@@ -162,15 +166,15 @@ public class NetworkManager : MonoBehaviour {
 
 	public void OnPlayerDeath(string name)
 	{
-		this.GetComponent<PhotonView>().RPC("KillPlayer",PhotonTargets.All,name);
 		weAreDead = true;
+		this.GetComponent<PhotonView>().RPC("KillPlayer",PhotonTargets.All,name);
 	}
 
 	[PunRPC]
 	void KillPlayer(string name)
 	{
 		totalDead ++;
-		if( totalPlayers - totalDead == 1)
+		if( totalPlayers - totalDead == 1 || totalPlayers == 1)
 		{
 			StartCoroutine("GameOver");
 		}
@@ -178,20 +182,26 @@ public class NetworkManager : MonoBehaviour {
 
 	IEnumerator GameOver()
 	{
-
 		if(!weAreDead)
 		{
 			ExitGames.Client.Photon.Hashtable table = new ExitGames.Client.Photon.Hashtable ();
 			table.Add ("Winner", PhotonNetwork.playerName);
 			PhotonNetwork.room.SetCustomProperties(table);
-
+			OurLog("FoundWinner");
 		}
 		
 		yield return new WaitForSeconds (1);
-		
-		winText.rectTransform.localScale = Vector3.zero;
+
+
+		string winnerText = "You Loose!";
+		OurLog ("Just about to read winner");
+		if (PhotonNetwork.room.customProperties.ContainsKey ("Winner")) {
+			winnerText = ((string)PhotonNetwork.room.customProperties["Winner"]) + " WINS!!";
+		}
+		OurLog ("ReadWinner");
 		winText.enabled = true;
-		winText.text = ((string)PhotonNetwork.room.customProperties["Winner"]) + " WINS!!";
+		winText.rectTransform.localScale = Vector3.zero;
+		winText.text = winnerText;
 		for (float currentScale = 0; currentScale <=1; currentScale+=Time.deltaTime) {
 			winText.rectTransform.localScale = new Vector3(currentScale,
 			                                               currentScale,
@@ -201,8 +211,25 @@ public class NetworkManager : MonoBehaviour {
 		
 		yield return new WaitForSeconds (2);
 		winText.enabled = false;
-		PhotonNetwork.LeaveRoom ();
 		GameObject.Find ("Map").GetComponent<MapController> ().Reset ();
+		GameObject deathCam = GameObject.FindGameObjectWithTag ("DeadCamera");
+		deathCam.GetComponent<Camera> ().enabled = false;
+		deathCam.GetComponent<AudioListener> ().enabled = false;
+
+		totalPlayers = 0;
+		totalDead = 0;
+		GameObject mainCam = GameObject.Find ("Main Camera");
+		mainCam.GetComponent<Camera> ().enabled = true;
+		mainCam.GetComponent<AudioListener> ().enabled = true;
+		mainMenu.SetActive (true);
+		weAreDead = false;
+		roomOwner = false;
+
+
+			PhotonNetwork.Destroy(player);
+
+		PhotonNetwork.Disconnect ();
+		yield break;
 	}
 
 	void SpawnMyPlayer(){
@@ -216,7 +243,7 @@ public class NetworkManager : MonoBehaviour {
 		Transform spawn = GetSpawnPoint ();
 
 		if (spawn == null) {
-			Debug.LogError("NO SPAWNS LEFT");
+			Debug.LogError("No spawn points left in GlobalScripts - NetworkManager");
 		}
 		player = (GameObject)PhotonNetwork.Instantiate ("Prefabs/NetworkedPlayer",spawn.transform.position, spawn.transform.rotation, 0);
 		player.name = "OurPlayer";
@@ -224,18 +251,6 @@ public class NetworkManager : MonoBehaviour {
 		player.GetComponentInChildren<Camera> ().enabled = true;
 		player.GetComponentInChildren<AudioListener> ().enabled = true;
 		player.GetComponentInChildren<HeadBob> ().enabled = true;
-	}
-
-	void OnLeftRoom()
-	{
-		if (player != null) {
-			PhotonNetwork.Destroy(player);
-		}
-
-		GameObject mainCam = GameObject.Find ("Main Camera");
-		mainCam.GetComponent<Camera> ().enabled = false;
-		mainCam.GetComponent<AudioListener> ().enabled = false;
-		mainMenu.SetActive (true);
 	}
 
 }

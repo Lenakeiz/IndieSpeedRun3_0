@@ -94,7 +94,7 @@ public class Projectile : Photon.MonoBehaviour {
 
 			//Debug.Log("Hitted :" + hit.collider.gameObject.name);
 
-			if(hit.collider.name != "OurPlayer")
+			if(photonView.isMine && hit.collider.name != "OurPlayer")
 			{
 				hit.collider.GetComponent<PhotonView>().RPC("Reshrink",PhotonTargets.All,shrinkPower);
 			}
@@ -114,7 +114,7 @@ public class Projectile : Photon.MonoBehaviour {
 		if(reshrinkObject != null)
 		{
 			//Debug.Log("Hitted :" + hit.collider.gameObject.name);
-			if(hit.gameObject.name != "OurPlayer")
+			if(photonView.isMine && hit.gameObject.name != "OurPlayer")
 			{
 				hit.gameObject.GetComponent<PhotonView>().RPC("Reshrink",PhotonTargets.All,shrinkPower);
 			}
