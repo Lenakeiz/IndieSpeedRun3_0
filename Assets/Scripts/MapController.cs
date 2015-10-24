@@ -74,7 +74,7 @@ public class MapController : MonoBehaviour {
 				}
 
 				newTile.transform.parent = mapHolder;
-				tileMap[x,y] = newTile;
+				tileMap[x,y] = newTile.transform;
 			}
 		}
 
