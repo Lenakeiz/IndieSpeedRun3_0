@@ -1,14 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityStandardAssets.Characters.FirstPerson;
+using UnityEngine.UI;
 
 public class NetworkManager : MonoBehaviour {
 
 	public bool debugVerbose;
+	public string userName;
+	public string roomName;
+
+	GameObject mainMenu;
 
 	// Use this for initialization
 	void OnEnable () {
-		Connect ();
+		PhotonNetwork.playerName = "Cool Dude";
+		mainMenu = GameObject.Find ("MainMenu");
 	}
 
 	void OurLog(string message)
@@ -17,7 +23,19 @@ public class NetworkManager : MonoBehaviour {
 			Debug.Log (message);
 	}
 
-	void Connect()
+	public void SetPlayerUsername(string name)
+	{
+		PhotonNetwork.playerName = GameObject.Find ("NameField").GetComponent<InputField> ().text;
+
+	}
+
+	public void SetRoomName(string name)
+	{
+		roomName = GameObject.Find ("RoomField").GetComponent<InputField> ().text;
+	
+	}
+
+	public void Connect()
 	{
 		OurLog ("Connect");
 		PhotonNetwork.ConnectUsingSettings ("FPs v.0.1");
@@ -29,7 +47,19 @@ public class NetworkManager : MonoBehaviour {
 
 	void OnJoinedLobby() {
 		OurLog ("OnJoinedLobby");
-		PhotonNetwork.JoinRandomRoom ();
+		if (roomName.Length > 0)
+			PhotonNetwork.JoinRoom (roomName);
+		else 
+			PhotonNetwork.JoinRandomRoom ();
+	}
+
+	void OnPhotonJoinRoomFailed()
+	{
+		OurLog ("OnPhotonJoinFialed");
+		
+		OurLog ("Creating new room");
+
+		PhotonNetwork.CreateRoom (roomName);
 	}
 
 	void OnPhotonRandomJoinFailed(){
@@ -42,6 +72,8 @@ public class NetworkManager : MonoBehaviour {
 
 	void OnJoinedRoom(){
 		OurLog ("OnJoinedRoom");
+		if (mainMenu)
+			mainMenu.SetActive (false);
 		SpawnMyPlayer ();
 	}
 
@@ -52,6 +84,7 @@ public class NetworkManager : MonoBehaviour {
 		mainCam.GetComponent<AudioListener> ().enabled = false;
 
 		GameObject player = (GameObject)PhotonNetwork.Instantiate ("Prefabs/NetworkedPlayer",new Vector3 (0, 2, 0), Quaternion.identity, 0);
+		player.name = "OurPlayer";
 		player.GetComponent<ReshrikingEntity> ().enabled = true;
 		player.GetComponentInChildren<Camera> ().enabled = true;
 		player.GetComponentInChildren<AudioListener> ().enabled = true;
