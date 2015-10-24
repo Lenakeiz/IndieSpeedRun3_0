@@ -183,6 +183,7 @@ public class NetworkManager : MonoBehaviour {
 			ExitGames.Client.Photon.Hashtable table = new ExitGames.Client.Photon.Hashtable ();
 			table.Add ("Winner", PhotonNetwork.playerName);
 			PhotonNetwork.room.SetCustomProperties(table);
+
 		}
 		
 		yield return new WaitForSeconds (1);

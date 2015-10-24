@@ -42,7 +42,7 @@ public class MapController : MonoBehaviour {
 
 	void OnAwake()
 	{
-		objects = GameObject.FindGameObjectsWithTag ("Object");
+		objects = GameObject.FindGameObjectsWithTag ("NetworkingObject");
 		positions = new Vector3[objects.Length];
 		rotations = new Quaternion[objects.Length];
 		scales = new Vector3[objects.Length];
