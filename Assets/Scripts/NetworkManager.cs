@@ -31,7 +31,8 @@ public class NetworkManager : MonoBehaviour {
 		spawnIsTaken = new bool[spawnPoints.Length];
 		
 		winText = GameObject.Find ("WinText").GetComponent<Text> ();
-		winText.enabled = false;
+		if(winText)
+			winText.enabled = false;
 	}
 
 	void OurLog(string message)
