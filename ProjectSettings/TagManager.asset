@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Map
   - TileTrap
+  - DeadCamera
   layers:
   - Default
   - TransparentFX
