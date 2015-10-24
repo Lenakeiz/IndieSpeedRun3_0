@@ -149,6 +149,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
         private void Update()
         {
+			Cursor.lockState = CursorLockMode.Locked;
+			Cursor.visible = false;
 			if(m_isMine)
 			{
 
