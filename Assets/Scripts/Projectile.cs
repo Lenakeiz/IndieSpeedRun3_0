@@ -40,15 +40,15 @@ public class Projectile : MonoBehaviour {
 		}
 		else
 		{
-			Plane ground = new Plane(Vector3.up,Vector3.zero);
-			float rayDistance;
-
-			if(ground.Raycast(ray, out rayDistance))
-			{
-				Vector3 rayPoint = ray.GetPoint(rayDistance);
-				Debug.Log ("Hitted ground pos x: " + rayPoint.x + " pos y: " + rayPoint.y);
-				OnHitGround(rayPoint);
-			}
+//			Plane ground = new Plane(Vector3.up,Vector3.zero);
+//			float rayDistance;
+//
+//			if(ground.Raycast(ray, out rayDistance))
+//			{
+//				Vector3 rayPoint = ray.GetPoint(rayDistance);
+//				Debug.Log ("Hitted ground pos x: " + rayPoint.x + " pos y: " + rayPoint.y);
+//				OnHitGround(rayPoint);
+//			}
 		}
 	}
 

@@ -280,8 +280,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnPosition: {fileID: 465496}
   projectile: {fileID: 11421674, guid: 8d6a27be4519c1a43a0cce85fbb3200c, type: 2}
-  msBetweenShots: 200
-  muzzleVel: 50
+  msBetweenShots: 150
+  muzzleVel: 20
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -291,11 +291,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 0}
       propertyPath: muzzleVel
-      value: 50
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: msBetweenShots
-      value: 200
+      value: 150
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
