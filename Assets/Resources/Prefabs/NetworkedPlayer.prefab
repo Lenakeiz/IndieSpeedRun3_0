@@ -16,7 +16,7 @@ GameObject:
   - 114: {fileID: 11401800}
   - 114: {fileID: 11438484}
   m_Layer: 0
-  m_Name: PlayerRigidBody
+  m_Name: NetworkedPlayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
