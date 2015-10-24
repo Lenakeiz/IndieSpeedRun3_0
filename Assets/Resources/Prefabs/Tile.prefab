@@ -85,7 +85,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 261c8e1f331f17046b7c7e47e9caf4c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingMultiplier: 1
+  startingMultiplier: 2
   minimumMultiplier: .100000001
   reshrinkAmount: .100000001
   minimumReached: 0
@@ -107,6 +107,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_Layer
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: startingMultiplier
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
