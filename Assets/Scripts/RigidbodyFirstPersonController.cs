@@ -177,7 +177,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 					
 					if(Input.GetMouseButton(0))
 					{
-						m_gunController.Shoot();
+						m_gunController.Shoot(multiplier);
 					}
 				}
 			}
@@ -195,9 +195,12 @@ namespace UnityStandardAssets.Characters.FirstPerson
 					Vector3 desiredMove = cam.transform.forward * input.y + cam.transform.right * input.x;
 					desiredMove = Vector3.ProjectOnPlane (desiredMove, m_GroundContactNormal).normalized;
 
-					desiredMove.x = desiredMove.x * movementSettings.CurrentTargetSpeed * (m_IscobWeb ? advancedSettings.cobwebMultiplier : 1.0f);
-					desiredMove.z = desiredMove.z * movementSettings.CurrentTargetSpeed * (m_IscobWeb ? advancedSettings.cobwebMultiplier : 1.0f);
-					desiredMove.y = desiredMove.y * movementSettings.CurrentTargetSpeed * (m_IscobWeb ? advancedSettings.cobwebMultiplier : 1.0f);
+					float adjustedMultiplier = m_IscobWeb ? advancedSettings.cobwebMultiplier * (multiplier -0.1f): 1.0f;
+					adjustedMultiplier = Mathf.Clamp(adjustedMultiplier,0.4f, 1.0f);
+
+					desiredMove.x = desiredMove.x * movementSettings.CurrentTargetSpeed * adjustedMultiplier;
+					desiredMove.z = desiredMove.z * movementSettings.CurrentTargetSpeed * adjustedMultiplier;
+					desiredMove.y = desiredMove.y * movementSettings.CurrentTargetSpeed * adjustedMultiplier;
 					if (m_RigidBody.velocity.sqrMagnitude <
 						(movementSettings.CurrentTargetSpeed * movementSettings.CurrentTargetSpeed)) {
 						m_RigidBody.AddForce (desiredMove * SlopeMultiplier (), ForceMode.Impulse);

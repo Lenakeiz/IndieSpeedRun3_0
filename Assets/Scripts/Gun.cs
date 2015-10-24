@@ -22,4 +22,17 @@ public class Gun : MonoBehaviour {
 		}
 	}
 
+	public void Shoot(float scaleMultiplier)
+	{
+		if(Time.time > nextShotTime)
+		{
+			nextShotTime = Time.time + msBetweenShots / 1000;
+			Projectile newprojectile = PhotonNetwork.Instantiate("Prefabs/Projectile",spawnPosition.position, spawnPosition.rotation,0).GetComponent<Projectile>();
+			Vector3 scale = newprojectile.transform.localScale;
+			newprojectile.transform.localScale = scale * scaleMultiplier;
+			newprojectile.SetSpeed(muzzleVel);
+			newprojectile.SetShrinkPower(shrinkAmount);
+		}
+	}
+
 }
