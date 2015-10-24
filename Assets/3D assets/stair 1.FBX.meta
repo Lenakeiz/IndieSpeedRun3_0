@@ -1,24 +1,21 @@
 fileFormatVersion: 2
-guid: 76d3437adff15ef4090ce0a585fc1fef
-timeCreated: 1445639875
+guid: 88334cf34ae756746b21b7b60cbfb35f
+timeCreated: 1445675133
 licenseType: Free
 ModelImporter:
   serializedVersion: 18
   fileIDToRecycleName:
-    100000: Box014
-    100002: Hold001
-    100004: Object001
-    100006: //RootNode
-    400000: Box014
-    400002: Hold001
-    400004: Object001
-    400006: //RootNode
-    2300000: Box014
-    2300002: Object001
-    3300000: Box014
-    3300002: Object001
-    4300000: Box014
-    4300002: Object001
+    100000: Hold001
+    100002: Object001
+    100004: //RootNode
+    400000: Hold001
+    400002: Object001
+    400004: //RootNode
+    2300000: Object001
+    3300000: Object001
+    4300000: Object001
+    6400000: Object001
+    7400000: Take 001
     9500000: //RootNode
   materials:
     importMaterials: 1
@@ -43,9 +40,9 @@ ModelImporter:
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 10
+    globalScale: 1
     meshCompression: 0
-    addColliders: 0
+    addColliders: 1
     importBlendShapes: 1
     swapUVChannels: 0
     generateSecondaryUV: 0
