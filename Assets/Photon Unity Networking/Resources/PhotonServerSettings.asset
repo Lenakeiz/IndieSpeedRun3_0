@@ -36,4 +36,5 @@ MonoBehaviour:
   - RequestForPickupTimes
   - TaggedPlayer
   - Reshrink
+  - ClaimSpawn
   DisableAutoOpenWizard: 1
