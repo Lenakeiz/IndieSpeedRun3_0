@@ -9,10 +9,11 @@ GameObject:
   m_Component:
   - 4: {fileID: 415704}
   - 33: {fileID: 3314210}
+  - 136: {fileID: 13604368}
   - 23: {fileID: 2325660}
   - 54: {fileID: 5437804}
-  - 136: {fileID: 13622552}
   - 114: {fileID: 11466736}
+  - 114: {fileID: 11401800}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -38,6 +39,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &196266
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 463718}
+  m_Layer: 0
+  m_Name: WeaponHold
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!4 &415704
 Transform:
   m_ObjectHideFlags: 1
@@ -45,8 +61,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 101764}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 3, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalPosition: {x: 0, y: 2, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 443180}
   m_Father: {fileID: 0}
@@ -58,10 +74,23 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 196256}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: .400000006, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 463718}
+  m_Father: {fileID: 415704}
+  m_RootOrder: 0
+--- !u!4 &463718
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 196266}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 415704}
+  m_Father: {fileID: 443180}
   m_RootOrder: 0
 --- !u!20 &2023472
 Camera:
@@ -79,7 +108,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: .100000001
+  near clip plane: .00999999978
   far clip plane: 500
   field of view: 60
   orthographic: 0
@@ -102,7 +131,7 @@ MeshRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 101764}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_Materials:
@@ -134,7 +163,7 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 101764}
   serializedVersion: 2
-  m_Mass: 10
+  m_Mass: 18
   m_Drag: 0
   m_AngularDrag: .0500000007
   m_UseGravity: 1
@@ -149,6 +178,19 @@ AudioListener:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 196256}
   m_Enabled: 1
+--- !u!114 &11401800
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 101764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 602703aeaa0899b4091e75794995f637, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponHolder: {fileID: 463718}
+  startingGun: {fileID: 11429606, guid: 9099f6d64a69ee14fa3d8527f691c259, type: 2}
 --- !u!114 &11466736
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -161,16 +203,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingMultiplier: 1
-  minimumMultiplier: .200000003
+  minimumMultiplier: .100000001
+  reshrinkAmount: .100000001
   minimumReached: 0
   cam: {fileID: 2023472}
   movementSettings:
-    ForwardSpeed: 6
-    BackwardSpeed: 3
-    StrafeSpeed: 4
-    RunMultiplier: 1.5
+    ForwardSpeed: 15
+    BackwardSpeed: 10
+    StrafeSpeed: 10
+    RunMultiplier: 2
     RunKey: 304
-    JumpForce: 50
+    JumpForce: 80
     SlopeCurveModifier:
       serializedVersion: 2
       m_Curve:
@@ -197,7 +240,7 @@ MonoBehaviour:
     YSensitivity: 2
     clampVerticalRotation: 1
     MinimumX: -45
-    MaximumX: 90
+    MaximumX: 80
     smooth: 1
     smoothTime: 18
   advancedSettings:
@@ -205,6 +248,7 @@ MonoBehaviour:
     stickToGroundHelperDistance: .600000024
     slowDownRate: 20
     airControl: 0
+    massStepDecrease: .519999981
 --- !u!114 &11495640
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -257,7 +301,7 @@ MonoBehaviour:
   rigidbodyFirstPersonController: {fileID: 11466736}
   StrideInterval: 4
   RunningStrideLengthen: .722000003
---- !u!136 &13622552
+--- !u!136 &13604368
 CapsuleCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}

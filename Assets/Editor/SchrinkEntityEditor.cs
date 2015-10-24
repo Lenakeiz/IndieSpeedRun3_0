@@ -12,7 +12,7 @@ public class SchrinkEntityEditor : Editor {
 		ReshrikingEntity re = target as ReshrikingEntity;
 		if(GUILayout.Button ("Reshrink"))
 		{
-			re.Reshrink(0.1f);
+			re.Reshrink();
 		}
 		
 	}
@@ -28,7 +28,7 @@ public class RigidbodyFirstPersonControllerSchrinkEditor : Editor {
 		RigidbodyFirstPersonController re = target as RigidbodyFirstPersonController;
 		if(GUILayout.Button ("Reshrink"))
 		{
-			re.Reshrink(0.1f);
+			re.Reshrink();
 		}
 		
 	}

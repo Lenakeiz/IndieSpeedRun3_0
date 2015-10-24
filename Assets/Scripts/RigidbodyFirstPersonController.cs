@@ -67,6 +67,9 @@ namespace UnityStandardAssets.Characters.FirstPerson
             public float stickToGroundHelperDistance = 0.5f; // stops the character
             public float slowDownRate = 20f; // rate at which the controller comes to a stop when there is no input
             public bool airControl; // can the user control the direction that is being moved in the air
+
+			public float massStepDecrease = 0.52f;
+
 		}
 
 
@@ -81,9 +84,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private Vector3 m_GroundContactNormal;
         private bool m_Jump, m_PreviouslyGrounded, m_Jumping, m_IsGrounded;
 
-		private Vector3 initialScale;
-		private float initialCapsuleHeight;
-		private float initialCapsuleRadius;
+		private GunController m_gunController;
 
 
         public Vector3 Velocity
@@ -109,20 +110,20 @@ namespace UnityStandardAssets.Characters.FirstPerson
             }
         }
 
-		public override void Reshrink(float amount){
-			base.Reshrink(amount);
-			Debug.Log("Child reshrink called");
-			//DoReshrinking stuff here
+		public override void Reshrink(){
+			base.Reshrink();
+			//Debug.Log("Child reshrink called");
 
-			UpdateScale();
-			m_Jump = false;
-			m_Jumping = true;
+			//UpdateScale();
+
+			UpdateParameters();
 
 		}
 
-		private void UpdateScale()
-		{
-			transform.localScale = initialScale * multiplier;
+		private void UpdateParameters(){
+			m_Jump = false;
+			m_Jumping = true;
+			m_RigidBody.mass -= advancedSettings.massStepDecrease;
 		}
 
 		public override void Start()
@@ -130,9 +131,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
 			base.Start();
             m_RigidBody = GetComponent<Rigidbody>();
             m_Capsule = GetComponent<CapsuleCollider>();
+			m_gunController = GetComponent<GunController>();
             mouseLook.Init (transform, cam.transform);
-
-			initialScale = transform.localScale;
 		}
 
         private void Update()
@@ -143,6 +143,11 @@ namespace UnityStandardAssets.Characters.FirstPerson
             {
                 m_Jump = true;
             }
+
+			if(Input.GetMouseButton(0))
+			{
+				m_gunController.Shoot();
+			}
         }
 
 

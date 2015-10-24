@@ -4,8 +4,10 @@ using System.Collections;
 public class ReshrikingEntity : MonoBehaviour, IReshrink {
 
 	public float startingMultiplier = 1.0f;
-	public float minimumMultiplier = 0.2f; 
+	public float minimumMultiplier = 0.1f;
+	public float reshrinkAmount = 0.1f;
 	public bool minimumReached;
+	protected Vector3 initialScale;
 
 	protected float multiplier;
 
@@ -14,6 +16,7 @@ public class ReshrikingEntity : MonoBehaviour, IReshrink {
 	public virtual void Start () {
 		minimumReached = false;
 		multiplier = startingMultiplier;
+		initialScale = transform.localScale;
 	}
 
 //	public virtual void Update () {
@@ -34,10 +37,16 @@ public class ReshrikingEntity : MonoBehaviour, IReshrink {
 		}
 	}
 
-	public virtual void Reshrink(float amount){
+	protected virtual void UpdateScale()
+	{
+		transform.localScale = initialScale * multiplier;		
+	}
+
+	public virtual void Reshrink(){
 		if(!minimumReached)
 		{
-			multiplier -= amount;
+			multiplier -= reshrinkAmount;
+			UpdateScale();
 
 			if(multiplier < minimumMultiplier)
 			{
