@@ -69,10 +69,8 @@ public class MapController : MonoBehaviour {
 			objects[i].transform.position = positions[i];
 			objects[i].transform.rotation = rotations[i];
 			objects[i].transform.localScale = scales[i];
-
-		
+			objects[i].GetComponent<ReshrikingEntity>().SetMultipler(1);
 		}
-
 	}
 
 	public void GenerateMap()

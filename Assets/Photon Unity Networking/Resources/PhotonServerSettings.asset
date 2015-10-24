@@ -37,4 +37,6 @@ MonoBehaviour:
   - TaggedPlayer
   - Reshrink
   - ClaimSpawn
+  - KillPlayer
+  - RegisterPlayer
   DisableAutoOpenWizard: 1

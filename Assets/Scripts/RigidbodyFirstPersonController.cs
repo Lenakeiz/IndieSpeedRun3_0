@@ -138,19 +138,22 @@ namespace UnityStandardAssets.Characters.FirstPerson
 			m_gunController = GetComponent<GunController>();
             mouseLook.Init (transform, cam.transform);
 			OnDeath += HandleDeath;
-			m_isMine = true;
+			m_isMine = false;
 
 		}
 
 		private void HandleDeath()
 		{
-			cam.enabled = false;
-			cam.GetComponent<AudioListener> ().enabled = false;
-			GameObject deathCam = GameObject.FindGameObjectWithTag ("DeadCamera");
-			deathCam.GetComponent<Camera>().enabled = true;
-			deathCam.GetComponent<AudioListener> ().enabled = true;
-			GameObject.Find ("GlobalScripts").GetComponent<GameController> ().OnPlayerDeath (PhotonNetwork.playerName);
-			PhotonNetwork.Destroy (this.gameObject);
+			if (m_isMine) {
+				cam.enabled = false;
+				cam.GetComponent<AudioListener> ().enabled = false;
+				GameObject deathCam = GameObject.FindGameObjectWithTag ("DeadCamera");
+				deathCam.GetComponent<Camera> ().enabled = true;
+				deathCam.GetComponent<AudioListener> ().enabled = true;
+
+				GameObject.Find ("GlobalScripts").GetComponent<NetworkManager> ().OnPlayerDeath (PhotonNetwork.playerName);
+				PhotonNetwork.Destroy (this.gameObject);
+			}
 		}
 
         public override void Update()

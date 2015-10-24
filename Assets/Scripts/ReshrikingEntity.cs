@@ -37,6 +37,11 @@ public class ReshrikingEntity : MonoBehaviour, IReshrink {
 			}
 		}
 	}
+
+	public void SetMultipler(float mul)
+	{
+		multiplier = mul;
+	}
 //
 //	public virtual void FixedUpdate(){
 //

@@ -237,7 +237,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 101764}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0fcecf719892e694b9f703e5536e197f, type: 3}
   m_Name: 
@@ -246,6 +246,8 @@ MonoBehaviour:
   minimumMultiplier: .100000001
   reshrinkAmount: .100000001
   minimumReached: 0
+  isDead: 0
+  destroyThreshold: -10
   cam: {fileID: 2023472}
   movementSettings:
     ForwardSpeed: 15
