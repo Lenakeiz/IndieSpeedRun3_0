@@ -13,6 +13,7 @@ GameObject:
   - 114: {fileID: 11421674}
   - 96: {fileID: 9646568}
   - 114: {fileID: 11435234}
+  - 114: {fileID: 11455800}
   m_Layer: 0
   m_Name: Projectile
   m_TagString: Untagged
@@ -122,6 +123,7 @@ MonoBehaviour:
   collisionMask:
     serializedVersion: 2
     m_Bits: 4294967240
+  lifeTime: 2
 --- !u!114 &11435234
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -142,11 +144,22 @@ MonoBehaviour:
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 0
   ObservedComponents:
-  - {fileID: 405424}
+  - {fileID: 11455800}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1
   isRuntimeInstantiated: 0
+--- !u!114 &11455800
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 140386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba9e0f341efebe546867fcb606b74a8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -209,7 +222,11 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: ObservedComponents.Array.data[0]
       value: 
-      objectReference: {fileID: 405424}
+      objectReference: {fileID: 11455800}
+    - target: {fileID: 0}
+      propertyPath: lifeTime
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 140386}

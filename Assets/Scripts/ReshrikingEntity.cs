@@ -27,6 +27,17 @@ public class ReshrikingEntity : MonoBehaviour, IReshrink {
 //
 //	}
 
+	public virtual void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+	{
+		if (stream.isWriting) {
+		
+			stream.SendNext (multiplier);
+		} else {
+			transform.localScale = (float)stream.ReceiveNext () * initialScale;
+		}
+	
+	}
+
 	private void MinimumReached()
 	{
 		minimumReached = true;
@@ -42,16 +53,34 @@ public class ReshrikingEntity : MonoBehaviour, IReshrink {
 		transform.localScale = initialScale * multiplier;		
 	}
 
+	public virtual void Reshrink(float shrinkAmount){
+		if (!minimumReached) {
+			float newMultiplier = multiplier - shrinkAmount;
+
+			if(newMultiplier <= minimumMultiplier)
+			{
+				multiplier = minimumMultiplier;
+				UpdateScale();
+				MinimumReached();
+			}
+			else{
+				multiplier = newMultiplier;
+				UpdateScale();
+			}
+
+		}
+	}
+
 	public virtual void Reshrink(){
 		if(!minimumReached)
 		{
 			multiplier -= reshrinkAmount;
-			UpdateScale();
-
 			if(multiplier < minimumMultiplier)
 			{
+				multiplier = minimumMultiplier;
 				MinimumReached();
 			}
+			UpdateScale();
 		}
 	}
 }

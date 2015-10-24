@@ -4,16 +4,15 @@ using System.Collections;
 public class Projectile : MonoBehaviour {
 
 	float speed = 10.0f;
+	float shrinkPower = 0.1f;
 	public LayerMask collisionMask;
 
-	float lifeTime = 5.0f;
+	public float lifeTime = 5.0f;
 	float width = .1f;
 
 	MapController mc;
 
 	void Start(){
-		Destroy(gameObject, lifeTime);
-
 		Collider[] initialCollision = Physics.OverlapSphere(transform.position, .1f, collisionMask);
 
 		if(initialCollision.Length > 0){
@@ -26,6 +25,21 @@ public class Projectile : MonoBehaviour {
 	public void SetSpeed(float newspeed)
 	{
 		speed = newspeed;
+	}
+
+	public void SetShrinkPower(float aShrinkPower)
+	{
+		shrinkPower = aShrinkPower;
+
+	}
+
+	public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+	{
+		if (stream.isWriting) {
+			stream.SendNext (lifeTime);
+		} else {
+			lifeTime = (float)stream.ReceiveNext();
+		}
 	}
 
 	void CheckCollision(float distanceMove)
@@ -62,11 +76,11 @@ public class Projectile : MonoBehaviour {
 			if(reshrinkObject != null)
 			{
 				//Debug.Log("Hitted :" + hit.collider.gameObject.name);
-				reshrinkObject.Reshrink();
+				reshrinkObject.Reshrink(shrinkPower);
 			}
 		}
 
-		GameObject.Destroy(gameObject);
+		PhotonNetwork.Destroy(gameObject);
 
 	}
 
@@ -76,10 +90,10 @@ public class Projectile : MonoBehaviour {
 		if(reshrinkObject != null)
 		{
 			//Debug.Log("Hitted :" + hit.collider.gameObject.name);
-			reshrinkObject.Reshrink();
+			reshrinkObject.Reshrink(shrinkPower);
 		}
 		//Debug.Log(hit.collider.gameObject.name);
-		GameObject.Destroy(gameObject);
+		PhotonNetwork.Destroy(gameObject);
 	}
 
 	void OnHitObject(Collider hit)
@@ -88,13 +102,19 @@ public class Projectile : MonoBehaviour {
 		if(reshrinkObject != null)
 		{
 			//Debug.Log("Hitted :" + hit.collider.gameObject.name);
-			reshrinkObject.Reshrink();
+			reshrinkObject.Reshrink(shrinkPower);
 		}
 		//Debug.Log(hit.collider.gameObject.name);
-		GameObject.Destroy(gameObject);
+		PhotonNetwork.Destroy(gameObject);
 	}
 
 	void Update () {
+		lifeTime -= Time.deltaTime;
+		if (lifeTime <= 0) {
+		
+			PhotonNetwork.Destroy (gameObject);
+		}
+
 
 		float distanceMove =  Time.deltaTime * speed;
 		CheckCollision(distanceMove);
