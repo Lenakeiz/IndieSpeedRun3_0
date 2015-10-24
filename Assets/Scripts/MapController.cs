@@ -5,6 +5,7 @@ public class MapController : MonoBehaviour {
 
 	public Transform tilePrefab;
 	public Vector2 MapSize;
+	public float tileScale;
 
 	public void GenerateMap()
 	{
@@ -18,8 +19,9 @@ public class MapController : MonoBehaviour {
 
 		for (int x = 0;x  < MapSize.x; x++) {
 			for (int y = 0; y < MapSize.y; y++) {
-				Vector3 tilePosition = new Vector3(- MapSize.x/2 + 0.5f + x, 0, - MapSize.y/2 + 0.5f + y);
+				Vector3 tilePosition = new Vector3(- MapSize.x/2 + tileScale/2 + x * tileScale, 0, - MapSize.y/2 + tileScale/2 + y * tileScale);
 				Transform newTile = Instantiate(tilePrefab, tilePosition, Quaternion.Euler(Vector3.right * 90)) as Transform;
+				newTile.localScale = Vector3.one * tileScale;
 				newTile.parent = mapHolder;
 			}
 		}

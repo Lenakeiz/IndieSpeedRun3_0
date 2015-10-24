@@ -5,8 +5,8 @@ using UnityStandardAssets.CrossPlatformInput;
 namespace UnityStandardAssets.Characters.FirstPerson
 {
     [RequireComponent(typeof (Rigidbody))]
-    [RequireComponent(typeof (CapsuleCollider))]
-    public class RigidbodyFirstPersonController : MonoBehaviour
+    //[RequireComponent(typeof (CapsuleCollider))]
+	public class RigidbodyFirstPersonController : ReshrikingEntity
     {
         [Serializable]
         public class MovementSettings
@@ -67,7 +67,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             public float stickToGroundHelperDistance = 0.5f; // stops the character
             public float slowDownRate = 20f; // rate at which the controller comes to a stop when there is no input
             public bool airControl; // can the user control the direction that is being moved in the air
-        }
+		}
 
 
         public Camera cam;
@@ -75,12 +75,15 @@ namespace UnityStandardAssets.Characters.FirstPerson
         public MouseLook mouseLook = new MouseLook();
         public AdvancedSettings advancedSettings = new AdvancedSettings();
 
-
         private Rigidbody m_RigidBody;
         private CapsuleCollider m_Capsule;
         private float m_YRotation;
         private Vector3 m_GroundContactNormal;
         private bool m_Jump, m_PreviouslyGrounded, m_Jumping, m_IsGrounded;
+
+		private Vector3 initialScale;
+		private float initialCapsuleHeight;
+		private float initialCapsuleRadius;
 
 
         public Vector3 Velocity
@@ -106,14 +109,31 @@ namespace UnityStandardAssets.Characters.FirstPerson
             }
         }
 
+		public override void Reshrink(float amount){
+			base.Reshrink(amount);
+			Debug.Log("Child reshrink called");
+			//DoReshrinking stuff here
 
-        private void Start()
+			UpdateScale();
+			m_Jump = false;
+			m_Jumping = true;
+
+		}
+
+		private void UpdateScale()
+		{
+			transform.localScale = initialScale * multiplier;
+		}
+
+		public override void Start()
         {
+			base.Start();
             m_RigidBody = GetComponent<Rigidbody>();
             m_Capsule = GetComponent<CapsuleCollider>();
             mouseLook.Init (transform, cam.transform);
-        }
 
+			initialScale = transform.localScale;
+		}
 
         private void Update()
         {
@@ -173,6 +193,10 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 }
             }
             m_Jump = false;
+
+			Debug.DrawRay(transform.position,Vector3.down * (m_Capsule.height/2f - m_Capsule.radius) * transform.localScale.y, m_IsGrounded ? Color.red : Color.green);
+			Debug.DrawRay(transform.position,Vector3.up * (m_Capsule.height/2f), Color.magenta);
+
         }
 
 
@@ -186,9 +210,9 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private void StickToGroundHelper()
         {
             RaycastHit hitInfo;
-            if (Physics.SphereCast(transform.position, m_Capsule.radius, Vector3.down, out hitInfo,
-                                   ((m_Capsule.height/2f) - m_Capsule.radius) +
-                                   advancedSettings.stickToGroundHelperDistance))
+			if (Physics.SphereCast(transform.position, m_Capsule.radius * transform.localScale.x, Vector3.down, out hitInfo,
+                                   (((m_Capsule.height/2f) * transform.localScale.y - m_Capsule.radius * transform.localScale.z) +
+                                   advancedSettings.stickToGroundHelperDistance)))
             {
                 if (Mathf.Abs(Vector3.Angle(hitInfo.normal, Vector3.up)) < 85f)
                 {
@@ -235,8 +259,9 @@ namespace UnityStandardAssets.Characters.FirstPerson
         {
             m_PreviouslyGrounded = m_IsGrounded;
             RaycastHit hitInfo;
-            if (Physics.SphereCast(transform.position, m_Capsule.radius, Vector3.down, out hitInfo,
-                                   ((m_Capsule.height/2f) - m_Capsule.radius) + advancedSettings.groundCheckDistance))
+
+            if (Physics.SphereCast(transform.position, m_Capsule.radius * transform.localScale.x, Vector3.down, out hitInfo,
+			                       (((m_Capsule.height/2f) * transform.localScale.y - m_Capsule.radius * transform.localScale.x) + advancedSettings.groundCheckDistance )))
             {
                 m_IsGrounded = true;
                 m_GroundContactNormal = hitInfo.normal;
