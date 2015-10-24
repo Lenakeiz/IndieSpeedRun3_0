@@ -15,7 +15,7 @@ public class Gun : MonoBehaviour {
 		if(Time.time > nextShotTime)
 		{
 			nextShotTime = Time.time + msBetweenShots / 1000;
-			Projectile newprojectile = Instantiate(projectile,spawnPosition.position, spawnPosition.rotation) as Projectile;
+			Projectile newprojectile = PhotonNetwork.Instantiate("Prefabs/Projectile",spawnPosition.position, spawnPosition.rotation,0).GetComponent<Projectile>();
 			newprojectile.SetSpeed(muzzleVel);
 		}
 	}

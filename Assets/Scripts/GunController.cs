@@ -16,7 +16,7 @@ public class GunController : MonoBehaviour {
 
 		equippedGun = Instantiate(equip, weaponHolder.position, weaponHolder.rotation) as Gun;
 		equippedGun.transform.SetParent(weaponHolder,true);
-
+		this.GetComponent<PhotonView> ().ObservedComponents.Add (this.transform.FindChild("MainCamera").transform);
 	}
 
 	public void Shoot()
