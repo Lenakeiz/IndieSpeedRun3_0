@@ -179,57 +179,50 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
         private void FixedUpdate()
         {
-			if(isDead)
-			{
-	            GroundCheck();
-	            Vector2 input = m_isMine ? GetInput() : Vector2.zero;
+			if (!isDead) {
+				GroundCheck ();
+				Vector2 input = m_isMine ? GetInput () : Vector2.zero;
 
-	            if ((Mathf.Abs(input.x) > float.Epsilon || Mathf.Abs(input.y) > float.Epsilon) && (advancedSettings.airControl || m_IsGrounded))
-	            {
-	                // always move along the camera forward as it is the direction that it being aimed at
-	                Vector3 desiredMove = cam.transform.forward*input.y + cam.transform.right*input.x;
-	                desiredMove = Vector3.ProjectOnPlane(desiredMove, m_GroundContactNormal).normalized;
+				if ((Mathf.Abs (input.x) > float.Epsilon || Mathf.Abs (input.y) > float.Epsilon) && (advancedSettings.airControl || m_IsGrounded)) {
+					// always move along the camera forward as it is the direction that it being aimed at
+					Vector3 desiredMove = cam.transform.forward * input.y + cam.transform.right * input.x;
+					desiredMove = Vector3.ProjectOnPlane (desiredMove, m_GroundContactNormal).normalized;
 
-					desiredMove.x = desiredMove.x * movementSettings.CurrentTargetSpeed * (m_IscobWeb ?  advancedSettings.cobwebMultiplier : 1.0f);
-					desiredMove.z = desiredMove.z * movementSettings.CurrentTargetSpeed * (m_IscobWeb ?  advancedSettings.cobwebMultiplier : 1.0f);
-					desiredMove.y = desiredMove.y * movementSettings.CurrentTargetSpeed * (m_IscobWeb ?  advancedSettings.cobwebMultiplier : 1.0f);
-	                if (m_RigidBody.velocity.sqrMagnitude <
-	                    (movementSettings.CurrentTargetSpeed*movementSettings.CurrentTargetSpeed))
-	                {
-	                    m_RigidBody.AddForce(desiredMove*SlopeMultiplier(), ForceMode.Impulse);
-	                }
-	            }
+					desiredMove.x = desiredMove.x * movementSettings.CurrentTargetSpeed * (m_IscobWeb ? advancedSettings.cobwebMultiplier : 1.0f);
+					desiredMove.z = desiredMove.z * movementSettings.CurrentTargetSpeed * (m_IscobWeb ? advancedSettings.cobwebMultiplier : 1.0f);
+					desiredMove.y = desiredMove.y * movementSettings.CurrentTargetSpeed * (m_IscobWeb ? advancedSettings.cobwebMultiplier : 1.0f);
+					if (m_RigidBody.velocity.sqrMagnitude <
+						(movementSettings.CurrentTargetSpeed * movementSettings.CurrentTargetSpeed)) {
+						m_RigidBody.AddForce (desiredMove * SlopeMultiplier (), ForceMode.Impulse);
+					}
+				
+				}
 
-	            if (m_IsGrounded)
-	            {
-	                m_RigidBody.drag = 5f;
+				if (m_IsGrounded) {
+					m_RigidBody.drag = 5f;
 
-	                if (m_Jump)
-	                {
-	                    m_RigidBody.drag = 0f;
-	                    m_RigidBody.velocity = new Vector3(m_RigidBody.velocity.x, 0f, m_RigidBody.velocity.z);
-	                    m_RigidBody.AddForce(new Vector3(0f, movementSettings.JumpForce, 0f), ForceMode.Impulse);
-	                    m_Jumping = true;
-	                }
+					if (m_Jump) {
+						m_RigidBody.drag = 0f;
+						m_RigidBody.velocity = new Vector3 (m_RigidBody.velocity.x, 0f, m_RigidBody.velocity.z);
+						m_RigidBody.AddForce (new Vector3 (0f, movementSettings.JumpForce, 0f), ForceMode.Impulse);
+						m_Jumping = true;
+					}
 
-	                if (!m_Jumping && Mathf.Abs(input.x) < float.Epsilon && Mathf.Abs(input.y) < float.Epsilon && m_RigidBody.velocity.magnitude < 1f)
-	                {
-	                    m_RigidBody.Sleep();
-	                }
-	            }
-	            else
-	            {
-	                m_RigidBody.drag = 0f;
-	                if (m_PreviouslyGrounded && !m_Jumping)
-	                {
-	                    StickToGroundHelper();
-	                }
-	            }
-	            m_Jump = false;
+					if (!m_Jumping && Mathf.Abs (input.x) < float.Epsilon && Mathf.Abs (input.y) < float.Epsilon && m_RigidBody.velocity.magnitude < 1f) {
+						m_RigidBody.Sleep ();
+					}
+				} else {
+					m_RigidBody.drag = 0f;
+					if (m_PreviouslyGrounded && !m_Jumping) {
+						StickToGroundHelper ();
+					}
+				}
+				m_Jump = false;
 
-				Debug.DrawRay(transform.position,Vector3.down * (m_Capsule.height/2f - m_Capsule.radius) * transform.localScale.y, m_IsGrounded ? Color.red : Color.green);
-				Debug.DrawRay(transform.position,Vector3.up * (m_Capsule.height/2f), Color.magenta);
+				Debug.DrawRay (transform.position, Vector3.down * (m_Capsule.height / 2f - m_Capsule.radius) * transform.localScale.y, m_IsGrounded ? Color.red : Color.green);
+				Debug.DrawRay (transform.position, Vector3.up * (m_Capsule.height / 2f), Color.magenta);
 			}
+			
         }
 
 

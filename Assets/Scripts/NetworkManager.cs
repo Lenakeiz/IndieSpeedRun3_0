@@ -83,7 +83,12 @@ public class NetworkManager : MonoBehaviour {
 		mainCam.GetComponent<Camera> ().enabled = false;
 		mainCam.GetComponent<AudioListener> ().enabled = false;
 
-		GameObject player = (GameObject)PhotonNetwork.Instantiate ("Prefabs/NetworkedPlayer",new Vector3 (0, 2, 0), Quaternion.identity, 0);
+		Transform spawn = this.GetComponent<GameController> ().GetSpawnPoint ();
+
+		if (spawn == null) {
+			Debug.LogError("NO SPAWNS LEFT");
+		}
+		GameObject player = (GameObject)PhotonNetwork.Instantiate ("Prefabs/NetworkedPlayer",spawn.transform.position, spawn.transform.rotation, 0);
 		player.name = "OurPlayer";
 		player.GetComponent<ReshrikingEntity> ().enabled = true;
 		player.GetComponentInChildren<Camera> ().enabled = true;

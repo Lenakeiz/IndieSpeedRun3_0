@@ -103,7 +103,7 @@ public class MapController : MonoBehaviour {
 				}
 
 				if(Random.Range(0,101) < tileTrapPercentage){
-					newTile.GetComponent<Renderer>().material.color = Color.magenta;
+					newTile.GetComponent<Renderer>().sharedMaterial.color = Color.magenta;
 					newTile.tag = "TileTrap";
 				}
 
