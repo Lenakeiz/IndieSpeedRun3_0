@@ -7,11 +7,14 @@ public class ReshrikingEntity : MonoBehaviour, IReshrink {
 	public float minimumMultiplier = 0.1f;
 	public float reshrinkAmount = 0.1f;
 	public bool minimumReached;
+	public bool isDead = false;
+	public float destroyThreshold = -10.0f;
 	protected Vector3 initialScale;
 
 	protected float multiplier;
 
 	public event System.Action OnMinumSizeReached;
+	public event System.Action OnDeath;
 
 	public virtual void Awake () {
 		minimumReached = false;
@@ -24,9 +27,16 @@ public class ReshrikingEntity : MonoBehaviour, IReshrink {
 		initialScale = transform.localScale;
 	}
 
-//	public virtual void Update () {
-//	
-//	}
+	public virtual void Update () {
+		if(transform.position.y < destroyThreshold && !isDead)
+		{
+			isDead = true;
+			if(OnDeath != null)
+			{
+				OnDeath();
+			}
+		}
+	}
 //
 //	public virtual void FixedUpdate(){
 //
@@ -39,8 +49,7 @@ public class ReshrikingEntity : MonoBehaviour, IReshrink {
 		} else {
 			multiplier = (float)stream.ReceiveNext ();
 			UpdateScale();
-		}
-	
+		}	
 	}
 
 	private void MinimumReached()
@@ -60,7 +69,7 @@ public class ReshrikingEntity : MonoBehaviour, IReshrink {
 
 	[PunRPC]
 	public virtual void Reshrink(float shrinkAmount){
-		if (!minimumReached) {
+		if (!minimumReached && !isDead) {
 			float newMultiplier = multiplier - shrinkAmount;
 
 			if(newMultiplier <= minimumMultiplier)
