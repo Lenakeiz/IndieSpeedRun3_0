@@ -16,6 +16,7 @@ public class ReshrikingEntity : MonoBehaviour, IReshrink {
 	public virtual void Awake () {
 		minimumReached = false;
 		multiplier = startingMultiplier;
+		SetInitialScale ();
 	}
 
 	public void SetInitialScale()
