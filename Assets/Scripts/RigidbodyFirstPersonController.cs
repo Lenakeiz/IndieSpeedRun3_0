@@ -145,7 +145,11 @@ namespace UnityStandardAssets.Characters.FirstPerson
 		private void HandleDeath()
 		{
 			cam.enabled = false;
-			GameObject.FindGameObjectWithTag("DeadCamera").GetComponent<Camera>().enabled = true;
+			cam.GetComponent<AudioListener> ().enabled = false;
+			GameObject deathCam = GameObject.FindGameObjectWithTag ("DeadCamera");
+			deathCam.GetComponent<Camera>().enabled = true;
+			deathCam.GetComponent<AudioListener> ().enabled = true;
+			GameObject.Find ("GlobalScripts").GetComponent<GameController> ().OnPlayerDeath (PhotonNetwork.playerName);
 			GameObject.Destroy(this);
 		}
 

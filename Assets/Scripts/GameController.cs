@@ -7,6 +7,11 @@ public class GameController : MonoBehaviour {
 	public Transform[] spawnPoints;
 	bool[] spawnIsTaken;
 
+	public string[] playerNames;
+	bool[] playerIsDead;
+
+	int totalDead = 0;
+
 	// Use this for initialization
 	void Start () {
 		spawnIsTaken = new bool[spawnPoints.Length];
@@ -31,7 +36,7 @@ public class GameController : MonoBehaviour {
 		spawnIsTaken [index] = true;
 	}
 
-	void OnPlayerDeath()
+	public void OnPlayerDeath(string name)
 	{
 
 
