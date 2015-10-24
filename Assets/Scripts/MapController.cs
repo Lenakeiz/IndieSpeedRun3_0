@@ -58,7 +58,11 @@ public class MapController : MonoBehaviour {
 				//Vector3 tilePosition = new Vector3(- MapSize.x/2 + tileScale/2 + x * tileScale, 0, - MapSize.y/2 + tileScale/2 + y * tileScale);
 				Vector3 tilePosition = CoordToPosition(x, y);
 				Transform newTile = Instantiate(tilePrefab, tilePosition, Quaternion.Euler(Vector3.right * 90)) as Transform;
-				newTile.localScale = Vector3.one * tileScale;
+				newTile.localScale = Vector3.one * tileScale;	
+				ReshrikingEntity re = newTile.GetComponent<ReshrikingEntity>() as ReshrikingEntity;
+				if(re != null){
+					re.SetInitialScale();
+				}
 				newTile.parent = mapHolder;
 				tileMap[x,y] = newTile;
 			}
