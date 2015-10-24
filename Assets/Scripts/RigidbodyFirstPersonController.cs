@@ -70,6 +70,9 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
 			public float massStepDecrease = 0.52f;
 
+			[Range(0,1)]
+			public float cobwebMultiplier = 0.5f;
+
 		}
 
 
@@ -82,7 +85,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private CapsuleCollider m_Capsule;
         private float m_YRotation;
         private Vector3 m_GroundContactNormal;
-        private bool m_Jump, m_PreviouslyGrounded, m_Jumping, m_IsGrounded;
+        private bool m_Jump, m_PreviouslyGrounded, m_Jumping, m_IsGrounded, m_IscobWeb;
 
 		private GunController m_gunController;
 		private bool m_isMine;
@@ -139,14 +142,19 @@ namespace UnityStandardAssets.Characters.FirstPerson
             m_Capsule = GetComponent<CapsuleCollider>();
 			m_gunController = GetComponent<GunController>();
             mouseLook.Init (transform, cam.transform);
+
+			m_isMine = true;
+
 		}
 
         private void Update()
         {
-            RotateView();
-
 			if(m_isMine)
-			{				
+			{
+
+            	RotateView();
+
+							
 				if (CrossPlatformInputManager.GetButtonDown("Jump") && !m_Jump)
 				{
 					m_Jump = true;
@@ -171,9 +179,9 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 Vector3 desiredMove = cam.transform.forward*input.y + cam.transform.right*input.x;
                 desiredMove = Vector3.ProjectOnPlane(desiredMove, m_GroundContactNormal).normalized;
 
-                desiredMove.x = desiredMove.x*movementSettings.CurrentTargetSpeed;
-                desiredMove.z = desiredMove.z*movementSettings.CurrentTargetSpeed;
-                desiredMove.y = desiredMove.y*movementSettings.CurrentTargetSpeed;
+				desiredMove.x = desiredMove.x * movementSettings.CurrentTargetSpeed * (m_IscobWeb ?  advancedSettings.cobwebMultiplier : 1.0f);
+				desiredMove.z = desiredMove.z * movementSettings.CurrentTargetSpeed * (m_IscobWeb ?  advancedSettings.cobwebMultiplier : 1.0f);
+				desiredMove.y = desiredMove.y * movementSettings.CurrentTargetSpeed * (m_IscobWeb ?  advancedSettings.cobwebMultiplier : 1.0f);
                 if (m_RigidBody.velocity.sqrMagnitude <
                     (movementSettings.CurrentTargetSpeed*movementSettings.CurrentTargetSpeed))
                 {
@@ -278,6 +286,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 			                       (((m_Capsule.height/2f) * transform.localScale.y - m_Capsule.radius * transform.localScale.x) + advancedSettings.groundCheckDistance )))
             {
                 m_IsGrounded = true;
+				m_IscobWeb = hitInfo.collider.tag == "TileTrap";
                 m_GroundContactNormal = hitInfo.normal;
             }
             else

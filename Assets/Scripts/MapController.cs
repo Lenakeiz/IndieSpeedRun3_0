@@ -32,6 +32,7 @@ public class MapController : MonoBehaviour {
 	public int MapSizeX;
 	public int MapSizeY;
 	public float tileScale;
+	public int tileTrapPercentage = 10;
 	Transform[,] tileMap;
 
 	public void Start()
@@ -60,9 +61,16 @@ public class MapController : MonoBehaviour {
 				Transform newTile = Instantiate(tilePrefab, tilePosition, Quaternion.Euler(Vector3.right * 90)) as Transform;
 				newTile.localScale = Vector3.one * tileScale;	
 				ReshrikingEntity re = newTile.GetComponent<ReshrikingEntity>() as ReshrikingEntity;
+
 				if(re != null){
 					re.SetInitialScale();
 				}
+
+				if(Random.Range(0,101) < tileTrapPercentage){
+					newTile.GetComponent<Renderer>().material.color = Color.magenta;
+					newTile.tag = "TileTrap";
+				}
+
 				newTile.parent = mapHolder;
 				tileMap[x,y] = newTile;
 			}
