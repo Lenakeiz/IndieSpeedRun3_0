@@ -7,7 +7,7 @@ public class NetworkManager : MonoBehaviour {
 	public bool debugVerbose;
 
 	// Use this for initialization
-	void Start () {
+	void OnEnable () {
 		Connect ();
 	}
 

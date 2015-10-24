@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Projectile : MonoBehaviour {
+public class Projectile : Photon.MonoBehaviour {
 
 	float speed = 10.0f;
 	float shrinkPower = 0.1f;
@@ -76,11 +76,12 @@ public class Projectile : MonoBehaviour {
 			if(reshrinkObject != null)
 			{
 				//Debug.Log("Hitted :" + hit.collider.gameObject.name);
-				reshrinkObject.Reshrink(shrinkPower);
+				hittedTile.GetComponent<PhotonView>().RPC("Reshrink",PhotonTargets.All,shrinkPower);
 			}
 		}
-
-		PhotonNetwork.Destroy(gameObject);
+			
+		if (photonView.isMine)
+			PhotonNetwork.Destroy (gameObject);
 
 	}
 
@@ -90,10 +91,12 @@ public class Projectile : MonoBehaviour {
 		if(reshrinkObject != null)
 		{
 			//Debug.Log("Hitted :" + hit.collider.gameObject.name);
-			reshrinkObject.Reshrink(shrinkPower);
+			hit.collider.GetComponent<PhotonView>().RPC("Reshrink",PhotonTargets.All,shrinkPower);
+			//reshrinkObject.Reshrink(shrinkPower);
 		}
 		//Debug.Log(hit.collider.gameObject.name);
-		PhotonNetwork.Destroy(gameObject);
+		if (photonView.isMine)
+			PhotonNetwork.Destroy (gameObject);
 	}
 
 	void OnHitObject(Collider hit)
@@ -102,23 +105,23 @@ public class Projectile : MonoBehaviour {
 		if(reshrinkObject != null)
 		{
 			//Debug.Log("Hitted :" + hit.collider.gameObject.name);
-			reshrinkObject.Reshrink(shrinkPower);
+			hit.gameObject.GetComponent<PhotonView>().RPC("Reshrink",PhotonTargets.All,shrinkPower);
 		}
 		//Debug.Log(hit.collider.gameObject.name);
-		PhotonNetwork.Destroy(gameObject);
+		if (photonView.isMine)
+			PhotonNetwork.Destroy (gameObject);
 	}
 
 	void Update () {
 		lifeTime -= Time.deltaTime;
 		if (lifeTime <= 0) {
-		
-			PhotonNetwork.Destroy (gameObject);
+			if (photonView.isMine)
+				PhotonNetwork.Destroy (gameObject);
 		}
 
 
 		float distanceMove =  Time.deltaTime * speed;
 		CheckCollision(distanceMove);
 		gameObject.transform.Translate(Vector3.forward * distanceMove);
-
 	}
 }
