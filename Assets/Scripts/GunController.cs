@@ -27,6 +27,14 @@ public class GunController : MonoBehaviour {
 		}
 	}
 
+	public void Shoot(float scaleMultiplier)
+	{
+		if(equippedGun != null)
+		{
+			equippedGun.Shoot(scaleMultiplier);
+		}
+	}
+
 	void Start () {
 		if(startingGun != null)
 		{
