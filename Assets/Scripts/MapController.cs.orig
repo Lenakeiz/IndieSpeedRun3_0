@@ -37,7 +37,6 @@ public class MapController : MonoBehaviour {
 
 	public void Start()
 	{
-		//GenerateMap();
 
 	}
 
@@ -59,9 +58,14 @@ public class MapController : MonoBehaviour {
 			for (int y = 0; y < MapSizeY; y++) {
 				//Vector3 tilePosition = new Vector3(- MapSize.x/2 + tileScale/2 + x * tileScale, 0, - MapSize.y/2 + tileScale/2 + y * tileScale);
 				Vector3 tilePosition = CoordToPosition(x, y);
+<<<<<<< HEAD
 				GameObject newTile = (GameObject)GameObject.Instantiate(tilePrefab, tilePosition, Quaternion.Euler(Vector3.right * 90));
 				newTile.transform.localScale = Vector3.one * tileScale;
-
+				newTile.transform.parent = mapHolder;
+				tileMap[x,y] = newTile.transform;
+=======
+				Transform newTile = Instantiate(tilePrefab, tilePosition, Quaternion.Euler(Vector3.right * 90)) as Transform;
+				newTile.localScale = Vector3.one * tileScale;	
 				ReshrikingEntity re = newTile.GetComponent<ReshrikingEntity>() as ReshrikingEntity;
 
 				if(re != null){
@@ -73,8 +77,9 @@ public class MapController : MonoBehaviour {
 					newTile.tag = "TileTrap";
 				}
 
-				newTile.transform.parent = mapHolder;
+				newTile.parent = mapHolder;
 				tileMap[x,y] = newTile;
+>>>>>>> 08c6097cbc08da5774df2b48337e39d6c2e552ba
 			}
 		}
 
