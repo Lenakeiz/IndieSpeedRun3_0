@@ -85,7 +85,12 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private bool m_Jump, m_PreviouslyGrounded, m_Jumping, m_IsGrounded;
 
 		private GunController m_gunController;
+		private bool m_isMine;
 
+		public bool Ownership {
+			get {return m_isMine;}
+			set{m_isMine = value;}
+		}
 
         public Vector3 Velocity
         {
@@ -140,14 +145,17 @@ namespace UnityStandardAssets.Characters.FirstPerson
         {
             RotateView();
 
-            if (CrossPlatformInputManager.GetButtonDown("Jump") && !m_Jump)
-            {
-                m_Jump = true;
-            }
-
-			if(Input.GetMouseButton(0))
-			{
-				m_gunController.Shoot();
+			if(m_isMine)
+			{				
+				if (CrossPlatformInputManager.GetButtonDown("Jump") && !m_Jump)
+				{
+					m_Jump = true;
+				}
+				
+				if(Input.GetMouseButton(0))
+				{
+					m_gunController.Shoot();
+				}
 			}
         }
 
@@ -155,7 +163,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private void FixedUpdate()
         {
             GroundCheck();
-            Vector2 input = GetInput();
+            Vector2 input = m_isMine ? GetInput() : Vector2.zero;
 
             if ((Mathf.Abs(input.x) > float.Epsilon || Mathf.Abs(input.y) > float.Epsilon) && (advancedSettings.airControl || m_IsGrounded))
             {
