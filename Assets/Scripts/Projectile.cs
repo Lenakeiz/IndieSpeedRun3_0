@@ -88,27 +88,41 @@ public class Projectile : Photon.MonoBehaviour {
 	void OnHitObject(RaycastHit hit)
 	{
 		IReshrink reshrinkObject = hit.collider.gameObject.GetComponent<IReshrink>();
+		bool shouldDestroy = true;
 		if(reshrinkObject != null)
 		{
+
 			//Debug.Log("Hitted :" + hit.collider.gameObject.name);
-			hit.collider.GetComponent<PhotonView>().RPC("Reshrink",PhotonTargets.All,shrinkPower);
+
+			if(hit.collider.name != "OurPlayer")
+			{
+				hit.collider.GetComponent<PhotonView>().RPC("Reshrink",PhotonTargets.All,shrinkPower);
+			}
+			else
+				shouldDestroy = false;
 			//reshrinkObject.Reshrink(shrinkPower);
 		}
 		//Debug.Log(hit.collider.gameObject.name);
-		if (photonView.isMine)
+		if (shouldDestroy && photonView.isMine)
 			PhotonNetwork.Destroy (gameObject);
 	}
 
 	void OnHitObject(Collider hit)
 	{
 		IReshrink reshrinkObject = hit.GetComponent<IReshrink>();
+		bool shouldDestroy = true;
 		if(reshrinkObject != null)
 		{
 			//Debug.Log("Hitted :" + hit.collider.gameObject.name);
-			hit.gameObject.GetComponent<PhotonView>().RPC("Reshrink",PhotonTargets.All,shrinkPower);
+			if(hit.gameObject.name != "OurPlayer")
+			{
+				hit.gameObject.GetComponent<PhotonView>().RPC("Reshrink",PhotonTargets.All,shrinkPower);
+			}
+			else
+				shouldDestroy = false;
 		}
 		//Debug.Log(hit.collider.gameObject.name);
-		if (photonView.isMine)
+		if (shouldDestroy && photonView.isMine)
 			PhotonNetwork.Destroy (gameObject);
 	}
 
