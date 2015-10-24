@@ -150,7 +150,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 			deathCam.GetComponent<Camera>().enabled = true;
 			deathCam.GetComponent<AudioListener> ().enabled = true;
 			GameObject.Find ("GlobalScripts").GetComponent<GameController> ().OnPlayerDeath (PhotonNetwork.playerName);
-			GameObject.Destroy(this);
+			PhotonNetwork.Destroy (this.gameObject);
 		}
 
         public override void Update()
