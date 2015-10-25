@@ -80,7 +80,7 @@ public class ReshrikingEntity : MonoBehaviour, IReshrink {
 
 	private void PlaySound(string clipname)
 	{
-		GameObject go = GameObject.FindGameObjectWithTag("Map");
+		GameObject go = GameObject.FindGameObjectWithTag("AudioPlayer");
 		if(go != null)
 		{
 			AudioManager am = go.GetComponent<AudioManager>();

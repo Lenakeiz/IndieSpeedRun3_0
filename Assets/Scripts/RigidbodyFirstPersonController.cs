@@ -200,7 +200,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
 		private void PlaySound(string clipname)
 		{
-			GameObject go = GameObject.FindGameObjectWithTag("Map");
+			GameObject go = GameObject.FindGameObjectWithTag("AudioPlayer");
 			if(go != null)
 			{
 				AudioManager am = go.GetComponent<AudioManager>();
@@ -267,6 +267,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 					m_RigidBody.drag = 5f;
 
 					if (m_Jump) {
+						PlaySound("Jump");
 						m_RigidBody.drag = 0f;
 						m_RigidBody.velocity = new Vector3 (m_RigidBody.velocity.x, 0f, m_RigidBody.velocity.z);
 						m_RigidBody.AddForce (new Vector3 (0f, movementSettings.JumpForce * multiplier, 0f), ForceMode.Impulse);
