@@ -302,6 +302,8 @@ public class NetworkManager : MonoBehaviour {
 		mainMenu.SetActive (true);
 		weAreDead = false;
 		roomOwner = false;
+		Cursor.lockState = CursorLockMode.None;
+		Cursor.visible = true;
 
 		if(player != null)
 			PhotonNetwork.Destroy(player);

@@ -1,0 +1,10 @@
+Last man standing WINS!!!!
+
+Movement: WSAD
+Jump: SPACE
+Fire shrink weapon: LEFT MOUSE BUTTON
+Change shrink weapon: Q & E
+
+Connect with your friends by creating the room.
+Sandbox allows people to connect during the game.
+Just click Connect to join an active room.

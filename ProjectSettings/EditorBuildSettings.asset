@@ -7,5 +7,7 @@ EditorBuildSettings:
   m_Scenes:
   - enabled: 0
     path: Assets/Scenes/AldoScene.unity
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/FirstMasterScene.unity
+  - enabled: 1
+    path: Assets/Scenes/MasterV2.0.unity
