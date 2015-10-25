@@ -251,7 +251,7 @@ public class NetworkManager : MonoBehaviour {
 	void RegisterWinner(string name)
 	{
 
-		winText.text = name;
+		winText.text = name + " Wins!";
 	}
 
 	IEnumerator GameOver()
