@@ -75,7 +75,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
 		}
 
-
         public Camera cam;
         public MovementSettings movementSettings = new MovementSettings();
         public MouseLook mouseLook = new MouseLook();
@@ -88,6 +87,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private bool m_Jump, m_PreviouslyGrounded, m_Jumping, m_IsGrounded, m_IscobWeb;
 
 		private GunController m_gunController;
+		private Animator m_animator;
 		private bool m_isMine;
 
 		public bool Ownership {
@@ -136,6 +136,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             m_RigidBody = GetComponent<Rigidbody>();
             m_Capsule = GetComponent<CapsuleCollider>();
 			m_gunController = GetComponent<GunController>();
+			m_animator = GetComponent<Animator>();
             mouseLook.Init (transform, cam.transform);
 			OnDeath += HandleDeath;
 			m_isMine = false;
@@ -190,7 +191,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 				GroundCheck ();
 				Vector2 input = m_isMine ? GetInput () : Vector2.zero;
 
-				if ((Mathf.Abs (input.x) > float.Epsilon || Mathf.Abs (input.y) > float.Epsilon) && (advancedSettings.airControl || m_IsGrounded)) {
+				if ((Mathf.Abs (input.x) > float.Epsilon || Mathf.Abs (input.y) > float.Epsilon) && (m_IsGrounded)) {
 					// always move along the camera forward as it is the direction that it being aimed at
 					Vector3 desiredMove = cam.transform.forward * input.y + cam.transform.right * input.x;
 					desiredMove = Vector3.ProjectOnPlane (desiredMove, m_GroundContactNormal).normalized;
