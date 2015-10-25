@@ -76,7 +76,7 @@ GameObject:
   - 4: {fileID: 484052}
   - 114: {fileID: 11436916}
   m_Layer: 0
-  m_Name: Gun
+  m_Name: GrenadeLauncher
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -145,7 +145,7 @@ Transform:
   m_GameObject: {fileID: 129510}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.11699998, y: 1.20299995, z: 0}
-  m_LocalScale: {x: 1.02499998, y: .249999866, z: .149531558}
+  m_LocalScale: {x: 1.02499998, y: .370000005, z: .360000014}
   m_Children: []
   m_Father: {fileID: 458530}
   m_RootOrder: 0
@@ -156,7 +156,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 178454}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.66076183, y: .790000021, z: 4.74798298}
+  m_LocalPosition: {x: 1.58333957, y: 1.17999995, z: 6.04039288}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 458530}
@@ -169,7 +169,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 130208}
   m_LocalRotation: {x: 0, y: 0, z: .0695400983, w: .997579157}
-  m_LocalPosition: {x: -.976000011, y: .958000004, z: 0}
+  m_LocalPosition: {x: -.980000019, y: 1.20000005, z: .219999999}
   m_LocalScale: {x: .151988268, y: .321717262, z: .0978752598}
   m_Children: []
   m_Father: {fileID: 458530}
@@ -279,10 +279,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnPosition: {fileID: 465496}
-  msBetweenShots: 100
-  muzzleVel: 35
-  shrinkAmount: .0500000007
-  projectileName: Prefabs/Projectile
+  msBetweenShots: 1200
+  muzzleVel: 45
+  shrinkAmount: .400000006
+  projectileName: Prefabs/Grenade
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -292,15 +292,19 @@ Prefab:
     m_Modifications:
     - target: {fileID: 0}
       propertyPath: muzzleVel
-      value: 20
+      value: 45
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: msBetweenShots
-      value: 150
+      value: 1200
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: shrinkAmount
-      value: .0500000007
+      value: .400000006
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: projectileName
+      value: Prefabs/Grenade
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

@@ -72,6 +72,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             public float stickToGroundHelperDistance = 0.5f; // stops the character
             public float slowDownRate = 20f; // rate at which the controller comes to a stop when there is no input
             public bool airControl; // can the user control the direction that is being moved in the air
+			public float airControlModifier;
 
 			public float massStepDecrease = 0.52f;
 
@@ -178,13 +179,19 @@ namespace UnityStandardAssets.Characters.FirstPerson
 								
 					if (CrossPlatformInputManager.GetButtonDown("Jump") && !m_Jump)
 					{
-						m_animator.SetBool("isJumping", true);
+						if(m_animator != null)
+						{
+							m_animator.SetBool("isJumping", true);
+						}
 						m_Jump = true;
 					}
 					
 					if(Input.GetMouseButton(0))
 					{
-						m_animator.SetTrigger("shoot");
+						if(m_animator != null)
+						{
+							m_animator.SetTrigger("shoot");
+						}
 						m_gunController.Shoot(multiplier);
 					}
 				}
@@ -198,13 +205,16 @@ namespace UnityStandardAssets.Characters.FirstPerson
 				GroundCheck ();
 				Vector2 input = m_isMine ? GetInput () : Vector2.zero;
 
-				if ((Mathf.Abs (input.x) > float.Epsilon || Mathf.Abs (input.y) > float.Epsilon) && (m_IsGrounded)) {
+				if ((Mathf.Abs (input.x) > float.Epsilon || Mathf.Abs (input.y) > float.Epsilon) && (m_IsGrounded || advancedSettings.airControl)) {
 					// always move along the camera forward as it is the direction that it being aimed at
 					Vector3 desiredMove = cam.transform.forward * input.y + cam.transform.right * input.x;
 					desiredMove = Vector3.ProjectOnPlane (desiredMove, m_GroundContactNormal).normalized;
 
 					float adjustedMultiplier = m_IscobWeb ? advancedSettings.cobwebMultiplier * (multiplier -0.1f): (multiplier*multiplier)/2;
 					adjustedMultiplier = Mathf.Clamp(adjustedMultiplier,0.2f, 1.0f);
+
+					if(advancedSettings.airControl && !m_IsGrounded)
+					{adjustedMultiplier = advancedSettings.airControlModifier;}
 
 					desiredMove.x = desiredMove.x * movementSettings.CurrentTargetSpeed * adjustedMultiplier;
 					desiredMove.z = desiredMove.z * movementSettings.CurrentTargetSpeed * adjustedMultiplier;
@@ -214,16 +224,25 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
 						switch (movementSettings.currEnum) {
 						case MovementSettings.MovementEnum.Forwards:
-							m_animator.SetBool("isRunning", true);
-							m_animator.SetBool("isBack", false);
+							if(m_animator != null)
+							{
+								m_animator.SetBool("isRunning", true);
+								m_animator.SetBool("isBack", false);
+							}
 							break;
 						case MovementSettings.MovementEnum.Backwards:
-							m_animator.SetBool("isRunning", false);
-							m_animator.SetBool("isBack", true);
+							if(m_animator != null)
+							{
+								m_animator.SetBool("isRunning", false);
+								m_animator.SetBool("isBack", true);
+							}
 							break;
 						case MovementSettings.MovementEnum.Strafe:
-							m_animator.SetBool("isRunning", true);
-							m_animator.SetBool("isBack", false);
+							if(m_animator != null)
+							{
+								m_animator.SetBool("isRunning", true);
+								m_animator.SetBool("isBack", false);
+							}
 							break;
 						default:
 						break;
@@ -246,8 +265,11 @@ namespace UnityStandardAssets.Characters.FirstPerson
 					}
 
 					if (!m_Jumping && Mathf.Abs (input.x) < float.Epsilon && Mathf.Abs (input.y) < float.Epsilon && m_RigidBody.velocity.magnitude < 1f) {
-						m_animator.SetBool("isRunning", false);
-						m_animator.SetBool("isBack", false);
+						if(m_animator != null)
+						{
+							m_animator.SetBool("isRunning", false);
+							m_animator.SetBool("isBack", false);
+						}
 						m_RigidBody.Sleep ();
 					}
 				} else {
@@ -339,7 +361,10 @@ namespace UnityStandardAssets.Characters.FirstPerson
             }
             if (!m_PreviouslyGrounded && m_IsGrounded && m_Jumping)
             {
-				m_animator.SetBool("isJumping", false);
+				if(m_animator != null)
+				{
+					m_animator.SetBool("isJumping", false);
+				}
                 m_Jumping = false;
             }
         }

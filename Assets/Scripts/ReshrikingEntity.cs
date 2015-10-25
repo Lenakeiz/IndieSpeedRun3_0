@@ -47,6 +47,12 @@ public class ReshrikingEntity : MonoBehaviour, IReshrink {
 		if (multiplier > minimumMultiplier)
 			minimumReached = false;
 	}
+
+	public float GetMultipler()
+	{
+		return multiplier;
+
+	}
 //
 //	public virtual void FixedUpdate(){
 //

@@ -165,7 +165,7 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 101764}
   serializedVersion: 2
-  m_Mass: 1.00000001e-07
+  m_Mass: 20
   m_Drag: 0
   m_AngularDrag: .0500000007
   m_UseGravity: 1
@@ -192,7 +192,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponHolder: {fileID: 463718}
-  startingGun: {fileID: 11429606, guid: 9099f6d64a69ee14fa3d8527f691c259, type: 2}
+  startingGuns:
+  - {fileID: 11436916, guid: 9099f6d64a69ee14fa3d8527f691c259, type: 2}
+  - {fileID: 11436916, guid: ef0882f4c448113489e3d91fd8923561, type: 2}
+  - {fileID: 11436916, guid: 8550cb87ea1e8734da3513b1a9186500, type: 2}
 --- !u!114 &11438484
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -277,6 +280,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
     CurrentTargetSpeed: 8
+    currEnum: 0
   mouseLook:
     XSensitivity: 2
     YSensitivity: 2
@@ -290,6 +294,7 @@ MonoBehaviour:
     stickToGroundHelperDistance: .5
     slowDownRate: 20
     airControl: 0
+    airControlModifier: 0
     massStepDecrease: 0
     cobwebMultiplier: .5
 --- !u!114 &11495640
@@ -365,6 +370,10 @@ Prefab:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 0}
+      propertyPath: startingGuns.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
       propertyPath: ObservedComponents.Array.size
       value: 3
       objectReference: {fileID: 0}
@@ -390,7 +399,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_Mass
-      value: 40
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: ObservedComponents.Array.data[1]
@@ -440,6 +449,11 @@ Prefab:
       propertyPath: advancedSettings.massStepDecrease
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: startingGun
+      value: 
+      objectReference: {fileID: 11436916, guid: 9099f6d64a69ee14fa3d8527f691c259,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 101764}

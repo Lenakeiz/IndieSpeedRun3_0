@@ -3,16 +3,18 @@ using System.Collections;
 
 public class Projectile : Photon.MonoBehaviour {
 
-	float speed = 10.0f;
-	float shrinkPower = 0.1f;
+	protected float speed = 10.0f;
+	protected float shrinkPower = 0.1f;
 	public LayerMask collisionMask;
 
 	public float lifeTime = 5.0f;
-	float width = .1f;
+	protected float width = .1f;
 
-	MapController mc;
+	protected MapController mc;
 
-	void Start(){
+	public GameObject parent;
+
+	protected virtual void Start(){
 		Collider[] initialCollision = Physics.OverlapSphere(transform.position, .1f, collisionMask);
 
 		if(initialCollision.Length > 0){
@@ -33,7 +35,7 @@ public class Projectile : Photon.MonoBehaviour {
 
 	}
 
-	public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+	public virtual void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
 	{
 		if (stream.isWriting) {
 			stream.SendNext (lifeTime);
@@ -42,7 +44,7 @@ public class Projectile : Photon.MonoBehaviour {
 		}
 	}
 
-	void CheckCollision(float distanceMove)
+	protected virtual void CheckCollision(float distanceMove)
 	{
 		Ray ray = new Ray(transform.position, transform.forward);
 		//Debug.DrawLine(transform.position, transform.forward * distanceMove, Color.magenta);
@@ -66,7 +68,7 @@ public class Projectile : Photon.MonoBehaviour {
 		}
 	}
 
-	void OnHitGround(Vector3 pos)
+	protected virtual void OnHitGround(Vector3 pos)
 	{
 		Transform hittedTile;
 		if(mc.GetTileFromPosition(pos, out hittedTile))
@@ -85,7 +87,7 @@ public class Projectile : Photon.MonoBehaviour {
 
 	}
 
-	void OnHitObject(RaycastHit hit)
+	protected virtual void OnHitObject(RaycastHit hit)
 	{
 		IReshrink reshrinkObject = hit.collider.gameObject.GetComponent<IReshrink>();
 		bool shouldDestroy = true;
@@ -107,7 +109,7 @@ public class Projectile : Photon.MonoBehaviour {
 			PhotonNetwork.Destroy (gameObject);
 	}
 
-	void OnHitObject(Collider hit)
+	protected virtual void OnHitObject(Collider hit)
 	{
 		IReshrink reshrinkObject = hit.GetComponent<IReshrink>();
 		bool shouldDestroy = true;
@@ -126,7 +128,7 @@ public class Projectile : Photon.MonoBehaviour {
 			PhotonNetwork.Destroy (gameObject);
 	}
 
-	void Update () {
+	protected virtual void Update () {
 		lifeTime -= Time.deltaTime;
 		if (lifeTime <= 0) {
 			if (photonView.isMine)
