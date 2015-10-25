@@ -39,4 +39,5 @@ MonoBehaviour:
   - ClaimSpawn
   - KillPlayer
   - RegisterPlayer
+  - StartGame
   DisableAutoOpenWizard: 1

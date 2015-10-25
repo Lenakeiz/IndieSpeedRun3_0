@@ -19,13 +19,21 @@ public class NetworkManager : MonoBehaviour {
 
 	public GameObject aMainMenu;
 	public GameObject aWinText;
+	public Toggle aSandboxToggle;
+	public Text numPlayerText;
+	public GameObject aWaitMenu;
 
 
 	public int totalPlayers = 0;
 	public int totalDead = 0;
+	public float minPlayerWaitTime = 5.0f;
 
+	public bool createSandboxRoom = false;
 	bool roomOwner = false;
 	bool weAreDead = false;
+	public bool forceStartGame = false;
+	bool inGame = false;
+
 
 	// Use this for initialization
 	void OnEnable () {
@@ -33,6 +41,18 @@ public class NetworkManager : MonoBehaviour {
 		mainMenu = aMainMenu;
 		if (mainMenu == null)
 			Debug.LogError ("You need to put the MainMenu into NetworkManager");
+		if (aWinText == null)
+			Debug.LogError ("You need to put the WinText into NetworkManager");
+		if (aSandboxToggle == null)
+			Debug.LogError ("You need to put the SandboxToggle into NetworkManager");
+		if (numPlayerText == null) 
+			Debug.LogError("You need to put the NumPlayerText into NetworkManager");
+		if (aWaitMenu == null)
+			Debug.LogError ("You need to put the WaitingGameMenu into NetworkManager");
+		mainMenu .SetActive (true);
+
+		aWinText.SetActive (false);
+		aWaitMenu.SetActive (false);
 		spawnIsTaken = new bool[spawnPoints.Length];
 		winText = aWinText.GetComponent<Text> ();
 		if(winText)
@@ -48,12 +68,19 @@ public class NetworkManager : MonoBehaviour {
 	public void SetPlayerUsername(string name)
 	{
 		PhotonNetwork.playerName = GameObject.Find ("NameField").GetComponent<InputField> ().text;
-
+		createSandboxRoom = aSandboxToggle.isOn;
 	}
 
 	public void SetRoomName(string name)
 	{
 		roomName = GameObject.Find ("RoomField").GetComponent<InputField> ().text;
+	}
+
+	public void ForceGameStart()
+	{
+		if (roomOwner) {
+			forceStartGame = true;
+		}
 	}
 
 	public void Connect()
@@ -68,10 +95,16 @@ public class NetworkManager : MonoBehaviour {
 
 	void OnJoinedLobby() {
 		OurLog ("OnJoinedLobby");
+
+		ExitGames.Client.Photon.Hashtable expectedConditions = new ExitGames.Client.Photon.Hashtable();
+
+		expectedConditions.Add ("Open", true);
+
+
 		if (roomName.Length > 0)
 			PhotonNetwork.JoinRoom (roomName);
 		else 
-			PhotonNetwork.JoinRandomRoom ();
+			PhotonNetwork.JoinRandomRoom (expectedConditions,4);
 	}
 
 	void OnPhotonJoinRoomFailed()
@@ -114,21 +147,33 @@ public class NetworkManager : MonoBehaviour {
 			table.Add ("AvailableSpawns", spawnIsTaken);
 			table.Add ("TotalPlayers", 0);
 			table.Add ("TotalDead", 0);
+			table.Add ("Open", true);
 			PhotonNetwork.room.SetCustomProperties (table);
 		} else {
 			spawnIsTaken = (bool[])PhotonNetwork.room.customProperties ["AvailableSpawns"];
 			totalPlayers = (int)PhotonNetwork.room.customProperties ["TotalPlayers"];
 			totalDead = (int)PhotonNetwork.room.customProperties ["TotalDead"];
 		}
-		SpawnMyPlayer ();
 
+		aWaitMenu.SetActive (true);
+		StartCoroutine ("WaitForPlayers");
+
+	}
+
+	[PunRPC]
+	void StartGame()
+	{
+		aWaitMenu.SetActive (false);
+		SpawnMyPlayer ();
+		
 		ExitGames.Client.Photon.Hashtable customPropTable = new ExitGames.Client.Photon.Hashtable ();
 		customPropTable.Add ("AvailableSpawns", spawnIsTaken);
 		customPropTable.Add ("TotalPlayers", totalPlayers);
 		customPropTable.Add ("TotalDead", 0);
+		if(!createSandboxRoom && roomOwner)
+			customPropTable.Add ("Open", false);
 		PhotonNetwork.room.SetCustomProperties (customPropTable);
-
-
+		inGame = true;
 	}
 
 	public Transform GetSpawnPoint()
@@ -168,6 +213,38 @@ public class NetworkManager : MonoBehaviour {
 	{
 		weAreDead = true;
 		this.GetComponent<PhotonView>().RPC("KillPlayer",PhotonTargets.All,name);
+	}
+
+	IEnumerator WaitForPlayers()
+	{
+		float timeWaited = 0.0f;
+		int minimumPlayers = 4;
+		while (PhotonNetwork.room.playerCount <minimumPlayers) {
+
+			if(timeWaited > minPlayerWaitTime)
+			{
+				timeWaited = 0;
+				minimumPlayers --;
+			}
+			if(numPlayerText)
+			{
+				numPlayerText.text = "Waiting for players : " + PhotonNetwork.room.playerCount + "/" + minimumPlayers;
+			}
+
+			if(createSandboxRoom && forceStartGame)
+			{
+				break;
+			}
+
+			if(inGame)
+				yield break;
+
+			timeWaited += 0.2f;
+			yield return new WaitForSeconds(0.2f);
+		}
+
+		GetComponent<PhotonView> ().RPC ("StartGame", PhotonTargets.All, null);
+		yield break;
 	}
 
 	[PunRPC]
@@ -218,6 +295,11 @@ public class NetworkManager : MonoBehaviour {
 
 		totalPlayers = 0;
 		totalDead = 0;
+		createSandboxRoom = false;
+		roomOwner = false;
+		weAreDead = false;
+		forceStartGame = false;
+		inGame = false;
 		GameObject mainCam = GameObject.Find ("Main Camera");
 		mainCam.GetComponent<Camera> ().enabled = true;
 		mainCam.GetComponent<AudioListener> ().enabled = true;
@@ -225,7 +307,7 @@ public class NetworkManager : MonoBehaviour {
 		weAreDead = false;
 		roomOwner = false;
 
-
+		if(player != null)
 			PhotonNetwork.Destroy(player);
 
 		PhotonNetwork.Disconnect ();

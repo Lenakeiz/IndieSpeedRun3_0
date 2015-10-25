@@ -24,7 +24,7 @@ AnimatorController:
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
-    m_DefaultBool: 0
+    m_DefaultBool: 1
     m_Controller: {fileID: 0}
   - m_Name: isBack
     m_Type: 4
@@ -438,7 +438,7 @@ AnimatorStateMachine:
       first: {fileID: 110775402}
       second: []
   m_StateMachineBehaviours: []
-  m_AnyStatePosition: {x: 72, y: 24, z: 0}
+  m_AnyStatePosition: {x: 96, y: 24, z: 0}
   m_EntryPosition: {x: 72, y: 108, z: 0}
   m_ExitPosition: {x: 800, y: 120, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
