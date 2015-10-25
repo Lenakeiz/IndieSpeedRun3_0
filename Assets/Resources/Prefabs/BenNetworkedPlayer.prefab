@@ -44,6 +44,7 @@ GameObject:
   - 114: {fileID: 11401800}
   - 114: {fileID: 11438484}
   - 114: {fileID: 11446540}
+  - 114: {fileID: 11414670}
   - 95: {fileID: 9578924}
   m_Layer: 8
   m_Name: BenNetworkedPlayer
@@ -1305,6 +1306,17 @@ MonoBehaviour:
   weaponHolder: {fileID: 463718}
   startingGuns:
   - {fileID: 11436916, guid: 9099f6d64a69ee14fa3d8527f691c259, type: 2}
+--- !u!114 &11414670
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 101764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc9a6c078ff3b394b8db48d307b7fdbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11438484
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1328,6 +1340,7 @@ MonoBehaviour:
   - {fileID: 5437804}
   - {fileID: 11446540}
   - {fileID: 11466736}
+  - {fileID: 11414670}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1

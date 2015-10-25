@@ -313,13 +313,13 @@ public class NetworkManager : MonoBehaviour {
 		if (spawnPoint == null) {
 			Debug.LogError("No spawn points left in GlobalScripts - NetworkManager");
 		}
-		player = (GameObject)PhotonNetwork.Instantiate ("Prefabs/NetworkedPlayer",spawnPoint.transform.position, spawnPoint.transform.rotation, 0);
+		player = (GameObject)PhotonNetwork.Instantiate ("Prefabs/BenNetworkedPlayer",spawnPoint.transform.position, spawnPoint.transform.rotation, 0);
 		player.name = "OurPlayer";
 		player.GetComponent<RigidbodyFirstPersonController> ().Ownership = true;
 		player.GetComponentInChildren<Camera> ().enabled = true;
 		player.GetComponentInChildren<AudioListener> ().enabled = true;
 		player.GetComponentInChildren<HeadBob> ().enabled = true;
-		//player.transform.FindChild("Rigged_Model").gameObject.GetComponentInChildren<Renderer>().enabled = false;
+		player.transform.FindChild("Rigged_Model").gameObject.GetComponentInChildren<Renderer>().enabled = false;
 	}
 
 }
