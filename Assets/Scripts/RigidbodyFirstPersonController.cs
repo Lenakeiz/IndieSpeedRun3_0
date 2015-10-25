@@ -21,6 +21,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
             [HideInInspector] public float CurrentTargetSpeed = 8f;
 
             private bool m_Running;
+			public enum MovementEnum{Idle, Strafe, Backwards, Forwards}
+			public MovementEnum currEnum = MovementEnum.Idle;
 
             public void UpdateDesiredTargetSpeed(Vector2 input)
             {
@@ -28,17 +30,20 @@ namespace UnityStandardAssets.Characters.FirstPerson
 				if (input.x > 0 || input.x < 0)
 				{
 					//strafe
+					currEnum = MovementEnum.Strafe;
 					CurrentTargetSpeed = StrafeSpeed;
 				}
 				if (input.y < 0)
 				{
 					//backwards
+					currEnum = MovementEnum.Backwards;
 					CurrentTargetSpeed = BackwardSpeed;
 				}
 				if (input.y > 0)
 				{
 					//forwards
 					//handled last as if strafing and moving forward at the same time forwards speed should take precedence
+					currEnum = MovementEnum.Forwards;
 					CurrentTargetSpeed = ForwardSpeed;
 				}
 
@@ -173,11 +178,13 @@ namespace UnityStandardAssets.Characters.FirstPerson
 								
 					if (CrossPlatformInputManager.GetButtonDown("Jump") && !m_Jump)
 					{
+						m_animator.SetBool("isJumping", true);
 						m_Jump = true;
 					}
 					
 					if(Input.GetMouseButton(0))
 					{
+						m_animator.SetTrigger("shoot");
 						m_gunController.Shoot(multiplier);
 					}
 				}
@@ -204,6 +211,25 @@ namespace UnityStandardAssets.Characters.FirstPerson
 					desiredMove.y = desiredMove.y * movementSettings.CurrentTargetSpeed * adjustedMultiplier;
 					if (m_RigidBody.velocity.sqrMagnitude <
 						(movementSettings.CurrentTargetSpeed * movementSettings.CurrentTargetSpeed)) {
+
+						switch (movementSettings.currEnum) {
+						case MovementSettings.MovementEnum.Forwards:
+							m_animator.SetBool("isRunning", true);
+							m_animator.SetBool("isBack", false);
+							break;
+						case MovementSettings.MovementEnum.Backwards:
+							m_animator.SetBool("isRunning", false);
+							m_animator.SetBool("isBack", true);
+							break;
+						case MovementSettings.MovementEnum.Strafe:
+							m_animator.SetBool("isRunning", true);
+							m_animator.SetBool("isBack", false);
+							break;
+						default:
+						break;
+						}
+
+
 						m_RigidBody.AddForce (desiredMove * SlopeMultiplier (), ForceMode.Impulse);
 					}
 				
@@ -220,6 +246,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
 					}
 
 					if (!m_Jumping && Mathf.Abs (input.x) < float.Epsilon && Mathf.Abs (input.y) < float.Epsilon && m_RigidBody.velocity.magnitude < 1f) {
+						m_animator.SetBool("isRunning", false);
+						m_animator.SetBool("isBack", false);
 						m_RigidBody.Sleep ();
 					}
 				} else {
@@ -286,7 +314,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             {
                 // Rotate the rigidbody velocity to match the new direction that the character is looking
                 Quaternion velRotation = Quaternion.AngleAxis(transform.eulerAngles.y - oldYRotation, Vector3.up);
-                m_RigidBody.velocity = velRotation*m_RigidBody.velocity;
+				m_RigidBody.velocity = velRotation*m_RigidBody.velocity;
             }
         }
 
@@ -311,6 +339,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             }
             if (!m_PreviouslyGrounded && m_IsGrounded && m_Jumping)
             {
+				m_animator.SetBool("isJumping", false);
                 m_Jumping = false;
             }
         }
