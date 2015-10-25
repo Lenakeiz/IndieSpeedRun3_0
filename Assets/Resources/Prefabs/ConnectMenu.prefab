@@ -168,7 +168,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &160358
 GameObject:
   m_ObjectHideFlags: 1
@@ -293,7 +293,7 @@ GameObject:
   m_IsActive: 1
 --- !u!1 &177994
 GameObject:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 4
@@ -424,7 +424,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 22494926}
-  m_RootOrder: 3
+  m_RootOrder: 4
 --- !u!114 &11401086
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -450,7 +450,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Enter room name...
+  m_Text: Connect with friends!
 --- !u!114 &11401258
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -576,6 +576,7 @@ MonoBehaviour:
   aSandboxToggle: {fileID: 11493486}
   numPlayerText: {fileID: 11482018}
   aWaitMenu: {fileID: 124938}
+  waitTextPanal: {fileID: 0}
   totalPlayers: 0
   totalDead: 0
   minPlayerWaitTime: 7
@@ -652,7 +653,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Enter username...
+  m_Text: Your nickname
 --- !u!114 &11429180
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1571,9 +1572,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 22457932}
-  - {fileID: 22439336}
   m_Father: {fileID: 22494926}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: -101.190002}
@@ -1607,11 +1607,11 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 22482282}
-  m_Father: {fileID: 22435734}
-  m_RootOrder: 1
+  m_Father: {fileID: 22494926}
+  m_RootOrder: 2
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -101.190002}
   m_SizeDelta: {x: 159.869995, y: 30}
   m_Pivot: {x: .5, y: .5}
 --- !u!224 &22439728
@@ -1843,6 +1843,7 @@ RectTransform:
   m_Children:
   - {fileID: 22471848}
   - {fileID: 22493900}
+  - {fileID: 22439336}
   - {fileID: 22435734}
   - {fileID: 488142}
   m_Father: {fileID: 0}
