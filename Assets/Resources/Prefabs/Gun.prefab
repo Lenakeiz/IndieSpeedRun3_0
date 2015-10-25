@@ -340,7 +340,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnPosition: {fileID: 465496}
-  msBetweenShots: 1000
+  msBetweenShots: 180
   muzzleVel: 35
   shrinkAmount: .0500000007
   projectileName: Prefabs/Projectile
@@ -357,7 +357,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: msBetweenShots
-      value: 1000
+      value: 180
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: shrinkAmount
