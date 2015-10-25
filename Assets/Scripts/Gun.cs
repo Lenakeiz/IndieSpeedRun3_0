@@ -7,7 +7,7 @@ public class Gun : MonoBehaviour {
 	public Projectile projectile;
 	public float msBetweenShots = 100;
 	public float muzzleVel = 35; 
-	public float shrinkAmount = 0.1f;
+	public float shrinkAmount = 0.01f;
 
 	float nextShotTime;
 

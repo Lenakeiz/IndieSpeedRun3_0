@@ -196,8 +196,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
 					Vector3 desiredMove = cam.transform.forward * input.y + cam.transform.right * input.x;
 					desiredMove = Vector3.ProjectOnPlane (desiredMove, m_GroundContactNormal).normalized;
 
-					float adjustedMultiplier = m_IscobWeb ? advancedSettings.cobwebMultiplier * (multiplier -0.1f): 1.0f;
-					adjustedMultiplier = Mathf.Clamp(adjustedMultiplier,0.4f, 1.0f);
+					float adjustedMultiplier = m_IscobWeb ? advancedSettings.cobwebMultiplier * (multiplier -0.1f): (multiplier*multiplier)/2;
+					adjustedMultiplier = Mathf.Clamp(adjustedMultiplier,0.2f, 1.0f);
 
 					desiredMove.x = desiredMove.x * movementSettings.CurrentTargetSpeed * adjustedMultiplier;
 					desiredMove.z = desiredMove.z * movementSettings.CurrentTargetSpeed * adjustedMultiplier;
@@ -215,7 +215,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 					if (m_Jump) {
 						m_RigidBody.drag = 0f;
 						m_RigidBody.velocity = new Vector3 (m_RigidBody.velocity.x, 0f, m_RigidBody.velocity.z);
-						m_RigidBody.AddForce (new Vector3 (0f, movementSettings.JumpForce, 0f), ForceMode.Impulse);
+						m_RigidBody.AddForce (new Vector3 (0f, movementSettings.JumpForce * multiplier, 0f), ForceMode.Impulse);
 						m_Jumping = true;
 					}
 
@@ -282,7 +282,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
             mouseLook.LookRotation (transform, cam.transform);
 
-            if (m_IsGrounded || advancedSettings.airControl)
+            if (m_IsGrounded )
             {
                 // Rotate the rigidbody velocity to match the new direction that the character is looking
                 Quaternion velRotation = Quaternion.AngleAxis(transform.eulerAngles.y - oldYRotation, Vector3.up);

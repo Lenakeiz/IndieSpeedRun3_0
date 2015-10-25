@@ -76,7 +76,7 @@ public class ReshrikingEntity : MonoBehaviour, IReshrink {
 	{
 		transform.localScale = initialScale * multiplier;
 		if(this.GetComponent<Rigidbody>())
-			this.GetComponent<Rigidbody> ().mass = initialMass * multiplier;
+			this.GetComponent<Rigidbody> ().mass = initialMass * multiplier/2;
 	}
 
 	[PunRPC]
