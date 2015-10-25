@@ -1306,6 +1306,8 @@ MonoBehaviour:
   weaponHolder: {fileID: 463718}
   startingGuns:
   - {fileID: 11436916, guid: 9099f6d64a69ee14fa3d8527f691c259, type: 2}
+  - {fileID: 11436916, guid: ef0882f4c448113489e3d91fd8923561, type: 2}
+  - {fileID: 11436916, guid: 8550cb87ea1e8734da3513b1a9186500, type: 2}
 --- !u!114 &11414670
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1553,6 +1555,10 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: startingGuns.Array.size
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: ObservedComponents.Array.size
       value: 3
