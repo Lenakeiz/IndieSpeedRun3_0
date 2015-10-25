@@ -96,15 +96,11 @@ public class NetworkManager : MonoBehaviour {
 	void OnJoinedLobby() {
 		OurLog ("OnJoinedLobby");
 
-		ExitGames.Client.Photon.Hashtable expectedConditions = new ExitGames.Client.Photon.Hashtable();
-
-		expectedConditions.Add ("Open", true);
-
 
 		if (roomName.Length > 0)
 			PhotonNetwork.JoinRoom (roomName);
 		else 
-			PhotonNetwork.JoinRandomRoom (expectedConditions,4);
+			PhotonNetwork.JoinRandomRoom (null,4);
 	}
 
 	void OnPhotonJoinRoomFailed()
@@ -126,13 +122,14 @@ public class NetworkManager : MonoBehaviour {
 
 	void CreateRoom(bool random)
 	{
-
+		RoomOptions r = new RoomOptions();
+		r.maxPlayers = 4;
 		if (random) {
 			OurLog ("Making new random room");
-			PhotonNetwork.CreateRoom(null);
+			PhotonNetwork.CreateRoom(null,r,null);
 		} else {
 			OurLog ("Making new room");
-			PhotonNetwork.CreateRoom (roomName);
+			PhotonNetwork.CreateRoom (roomName,r,null);
 		}
 		roomOwner = true;
 	}
@@ -147,7 +144,6 @@ public class NetworkManager : MonoBehaviour {
 			table.Add ("AvailableSpawns", spawnIsTaken);
 			table.Add ("TotalPlayers", 0);
 			table.Add ("TotalDead", 0);
-			table.Add ("Open", true);
 			PhotonNetwork.room.SetCustomProperties (table);
 		} else {
 			spawnIsTaken = (bool[])PhotonNetwork.room.customProperties ["AvailableSpawns"];
@@ -170,8 +166,9 @@ public class NetworkManager : MonoBehaviour {
 		customPropTable.Add ("AvailableSpawns", spawnIsTaken);
 		customPropTable.Add ("TotalPlayers", totalPlayers);
 		customPropTable.Add ("TotalDead", 0);
-		if(!createSandboxRoom && roomOwner)
-			customPropTable.Add ("Open", false);
+		if (!createSandboxRoom && roomOwner) {
+			PhotonNetwork.room.open = false;
+		}
 		PhotonNetwork.room.SetCustomProperties (customPropTable);
 		inGame = true;
 	}
