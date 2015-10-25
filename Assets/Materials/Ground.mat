@@ -8,7 +8,7 @@ Material:
   m_PrefabInternal: {fileID: 0}
   m_Name: Ground
   m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords: 
+  m_ShaderKeywords: _NORMALMAP
   m_LightmapFlags: 5
   m_CustomRenderQueue: -1
   stringTagMap: {}
@@ -19,14 +19,14 @@ Material:
         first:
           name: _MainTex
         second:
-          m_Texture: {fileID: 0}
+          m_Texture: {fileID: 2800000, guid: 73dcb5d1a98267b4486b63fc5dfcfe1a, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
         first:
           name: _BumpMap
         second:
-          m_Texture: {fileID: 0}
+          m_Texture: {fileID: 2800000, guid: f03e218196671344a8daba493d7efae9, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
@@ -98,7 +98,7 @@ Material:
       data:
         first:
           name: _Glossiness
-        second: 0
+        second: .178000003
       data:
         first:
           name: _Metallic
@@ -106,7 +106,7 @@ Material:
       data:
         first:
           name: _BumpScale
-        second: 1
+        second: 7
       data:
         first:
           name: _Parallax
@@ -135,4 +135,4 @@ Material:
       data:
         first:
           name: _Color
-        second: {r: .444827586, g: .444827586, b: .444827586, a: 1}
+        second: {r: .360294104, g: .360294104, b: .360294104, a: 1}

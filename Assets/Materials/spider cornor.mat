@@ -6,9 +6,9 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Wall1
+  m_Name: spider cornor
   m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords: _ALPHATEST_ON _DETAIL_MULX2 _NORMALMAP
+  m_ShaderKeywords: _ALPHATEST_ON
   m_LightmapFlags: 5
   m_CustomRenderQueue: 2450
   stringTagMap:
@@ -20,21 +20,21 @@ Material:
         first:
           name: _MainTex
         second:
-          m_Texture: {fileID: 2800000, guid: 18db1bc1001666d43a4cb2fc0c8e7451, type: 3}
+          m_Texture: {fileID: 2800000, guid: 3d41de6b8c0dc1040b112d31bd77ea78, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
         first:
           name: _BumpMap
         second:
-          m_Texture: {fileID: 2800000, guid: 95f71d9e34c0d3844835b1e796b19c4e, type: 3}
+          m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
         first:
           name: _DetailNormalMap
         second:
-          m_Texture: {fileID: 2800000, guid: 1aca378710d8c404c8431bb38f94f2b3, type: 3}
+          m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
@@ -79,13 +79,6 @@ Material:
           m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
-      data:
-        first:
-          name: _SpecGlossMap
-        second:
-          m_Texture: {fileID: 0}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
     m_Floats:
       data:
         first:
@@ -98,7 +91,7 @@ Material:
       data:
         first:
           name: _Cutoff
-        second: .32100001
+        second: .0219999999
       data:
         first:
           name: _ZWrite
@@ -106,7 +99,7 @@ Material:
       data:
         first:
           name: _Glossiness
-        second: .229000002
+        second: .5
       data:
         first:
           name: _Metallic
@@ -118,7 +111,7 @@ Material:
       data:
         first:
           name: _Parallax
-        second: .0461000018
+        second: .0199999996
       data:
         first:
           name: _OcclusionStrength
@@ -126,7 +119,7 @@ Material:
       data:
         first:
           name: _DetailNormalMapScale
-        second: .5
+        second: 1
       data:
         first:
           name: _UVSec
@@ -143,8 +136,4 @@ Material:
       data:
         first:
           name: _Color
-        second: {r: .41911763, g: .41911763, b: .41911763, a: 1}
-      data:
-        first:
-          name: _SpecColor
-        second: {r: .200000003, g: .200000003, b: .200000003, a: 1}
+        second: {r: 1, g: 1, b: 1, a: 1}
