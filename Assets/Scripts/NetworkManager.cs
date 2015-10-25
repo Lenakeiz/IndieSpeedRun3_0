@@ -224,6 +224,7 @@ public class NetworkManager : MonoBehaviour {
 		player.GetComponentInChildren<Camera> ().enabled = true;
 		player.GetComponentInChildren<AudioListener> ().enabled = true;
 		player.GetComponentInChildren<HeadBob> ().enabled = true;
+		//player.transform.FindChild("Rigged_Model").gameObject.GetComponentInChildren<Renderer>().enabled = false;
 	}
 
 	void OnLeftRoom()
