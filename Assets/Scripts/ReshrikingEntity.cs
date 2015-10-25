@@ -10,6 +10,7 @@ public class ReshrikingEntity : MonoBehaviour, IReshrink {
 	public bool isDead = false;
 	public float destroyThreshold = -10.0f;
 	protected Vector3 initialScale;
+	protected float initialMass;
 
 	protected float multiplier;
 
@@ -25,6 +26,8 @@ public class ReshrikingEntity : MonoBehaviour, IReshrink {
 	public void SetInitialScale()
 	{
 		initialScale = transform.localScale;
+		if(this.GetComponent<Rigidbody>())
+			initialMass = this.GetComponent<Rigidbody> ().mass;
 	}
 
 	public virtual void Update () {
@@ -71,7 +74,9 @@ public class ReshrikingEntity : MonoBehaviour, IReshrink {
 
 	protected virtual void UpdateScale()
 	{
-		transform.localScale = initialScale * multiplier;		
+		transform.localScale = initialScale * multiplier;
+		if(this.GetComponent<Rigidbody>())
+			this.GetComponent<Rigidbody> ().mass = initialMass * multiplier;
 	}
 
 	[PunRPC]
