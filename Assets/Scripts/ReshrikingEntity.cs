@@ -78,8 +78,20 @@ public class ReshrikingEntity : MonoBehaviour, IReshrink {
 		}
 	}
 
+	private void PlaySound(string clipname)
+	{
+		GameObject go = GameObject.FindGameObjectWithTag("Map");
+		if(go != null)
+		{
+			AudioManager am = go.GetComponent<AudioManager>();
+			am.PlaySound(clipname);
+		}
+	}
+
 	protected virtual void UpdateScale()
 	{
+		string sound = "Shrink"+Random.Range(1,3).ToString();
+		PlaySound(sound);
 		transform.localScale = initialScale * multiplier;
 		if(this.GetComponent<Rigidbody>())
 		{

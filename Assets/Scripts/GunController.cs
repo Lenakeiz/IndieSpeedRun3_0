@@ -8,8 +8,6 @@ public class GunController : MonoBehaviour {
 	Gun equippedGun;
 	int gunIndex =0;
 
-
-
 	public void EquipGun(Gun equip)
 	{
 		if(equippedGun != null)

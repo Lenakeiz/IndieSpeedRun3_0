@@ -11,6 +11,16 @@ public class Gun : MonoBehaviour {
 
 	float nextShotTime;
 
+	private void PlaySound(string clipname)
+	{
+		GameObject go = GameObject.FindGameObjectWithTag("Map");
+		if(go != null)
+		{
+			AudioManager am = go.GetComponent<AudioManager>();
+			am.PlaySound(clipname);
+		}
+	}
+
 	public virtual void Shoot()
 	{
 		if(Time.time > nextShotTime)
@@ -20,6 +30,7 @@ public class Gun : MonoBehaviour {
 			newprojectile.SetSpeed(muzzleVel);
 			newprojectile.SetShrinkPower(shrinkAmount);
 			newprojectile.parent = transform.root.gameObject;
+			PlaySound("Shoot");
 		}
 	}
 
@@ -34,6 +45,7 @@ public class Gun : MonoBehaviour {
 			newprojectile.SetSpeed(muzzleVel);
 			newprojectile.SetShrinkPower(shrinkAmount);
 			newprojectile.parent = transform.root.gameObject;
+			PlaySound("Shoot");
 		}
 	}
 

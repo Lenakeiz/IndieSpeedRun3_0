@@ -95,6 +95,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
 		private GunController m_gunController;
 		private Animator m_animator;
+		private AudioManager m_audio;
 		private bool m_isMine;
 
 		public bool Ownership {
@@ -144,6 +145,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             m_Capsule = GetComponent<CapsuleCollider>();
 			m_gunController = GetComponent<GunController>();
 			m_animator = GetComponent<Animator>();
+			m_audio = GameObject.FindGameObjectWithTag("Map").GetComponent<AudioManager>();
             mouseLook.Init (transform, cam.transform);
 			OnDeath += HandleDeath;
 			m_isMine = false;
@@ -195,6 +197,16 @@ namespace UnityStandardAssets.Characters.FirstPerson
 				}
 			}
         }
+
+		private void PlaySound(string clipname)
+		{
+			GameObject go = GameObject.FindGameObjectWithTag("Map");
+			if(go != null)
+			{
+				AudioManager am = go.GetComponent<AudioManager>();
+				am.PlaySound(clipname);
+			}
+		}
 
 
         private void FixedUpdate()
