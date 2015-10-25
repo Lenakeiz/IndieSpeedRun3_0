@@ -30,17 +30,20 @@ namespace UnityStandardAssets.Characters.FirstPerson
 				if (input.x > 0 || input.x < 0)
 				{
 					//strafe
+					currEnum = MovementEnum.Strafe;
 					CurrentTargetSpeed = StrafeSpeed;
 				}
 				if (input.y < 0)
 				{
 					//backwards
+					currEnum = MovementEnum.Backwards;
 					CurrentTargetSpeed = BackwardSpeed;
 				}
 				if (input.y > 0)
 				{
 					//forwards
 					//handled last as if strafing and moving forward at the same time forwards speed should take precedence
+					currEnum = MovementEnum.Forwards;
 					CurrentTargetSpeed = ForwardSpeed;
 				}
 
@@ -140,6 +143,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             m_RigidBody = GetComponent<Rigidbody>();
             m_Capsule = GetComponent<CapsuleCollider>();
 			m_gunController = GetComponent<GunController>();
+			m_animator = GetComponent<Animator>();
             mouseLook.Init (transform, cam.transform);
 			OnDeath += HandleDeath;
 			m_isMine = false;
@@ -176,11 +180,16 @@ namespace UnityStandardAssets.Characters.FirstPerson
 								
 					if (CrossPlatformInputManager.GetButtonDown("Jump") && !m_Jump)
 					{
+						if(m_animator != null)
+						{
+							m_animator.SetBool("isJumping",true);
+						}
 						m_Jump = true;
 					}
 					
 					if(Input.GetMouseButton(0))
 					{
+						m_animator.SetTrigger("shoot");
 						m_gunController.Shoot(multiplier);
 					}
 				}
