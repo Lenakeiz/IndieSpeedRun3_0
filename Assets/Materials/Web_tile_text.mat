@@ -91,7 +91,7 @@ Material:
       data:
         first:
           name: _Cutoff
-        second: .0109999999
+        second: .162
       data:
         first:
           name: _ZWrite

@@ -1,0 +1,205 @@
+fileFormatVersion: 2
+guid: 5ac4a33c9ebcd68478094c5f3a6a58f2
+timeCreated: 1445788561
+licenseType: Free
+ModelImporter:
+  serializedVersion: 18
+  fileIDToRecycleName:
+    100000: Box01
+    100002: Box01 1
+    100004: Box01 2
+    100006: Box02
+    100008: Box02 1
+    100010: Box02 2
+    100012: Box03
+    100014: Box03 1
+    100016: Box03 2
+    100018: Case01
+    100020: Case01 1
+    100022: Case01 2
+    100024: DrawerA
+    100026: DrawerA1
+    100028: DrawerA2
+    100030: //RootNode
+    100032: Handle01
+    100034: Handle01 1
+    100036: Handle01 2
+    100038: Handle01 3
+    100040: Handle01 4
+    100042: Handle01 5
+    100044: Handle01 6
+    100046: Handle01 7
+    100048: Handle01 8
+    400000: Box01
+    400002: Box01 1
+    400004: Box01 2
+    400006: Box02
+    400008: Box02 1
+    400010: Box02 2
+    400012: Box03
+    400014: Box03 1
+    400016: Box03 2
+    400018: Case01
+    400020: Case01 1
+    400022: Case01 2
+    400024: DrawerA
+    400026: DrawerA1
+    400028: DrawerA2
+    400030: //RootNode
+    400032: Handle01
+    400034: Handle01 1
+    400036: Handle01 2
+    400038: Handle01 3
+    400040: Handle01 4
+    400042: Handle01 5
+    400044: Handle01 6
+    400046: Handle01 7
+    400048: Handle01 8
+    2300000: Box01
+    2300002: Box01 1
+    2300004: Box01 2
+    2300006: Box02
+    2300008: Box02 1
+    2300010: Box02 2
+    2300012: Box03
+    2300014: Box03 1
+    2300016: Box03 2
+    2300018: Case01
+    2300020: Case01 1
+    2300022: Case01 2
+    2300024: Handle01
+    2300026: Handle01 1
+    2300028: Handle01 2
+    2300030: Handle01 3
+    2300032: Handle01 4
+    2300034: Handle01 5
+    2300036: Handle01 6
+    2300038: Handle01 7
+    2300040: Handle01 8
+    3300000: Box01
+    3300002: Box01 1
+    3300004: Box01 2
+    3300006: Box02
+    3300008: Box02 1
+    3300010: Box02 2
+    3300012: Box03
+    3300014: Box03 1
+    3300016: Box03 2
+    3300018: Case01
+    3300020: Case01 1
+    3300022: Case01 2
+    3300024: Handle01
+    3300026: Handle01 1
+    3300028: Handle01 2
+    3300030: Handle01 3
+    3300032: Handle01 4
+    3300034: Handle01 5
+    3300036: Handle01 6
+    3300038: Handle01 7
+    3300040: Handle01 8
+    4300000: Case01
+    4300002: Box01
+    4300004: Handle01
+    4300006: Box02
+    4300008: Handle01
+    4300010: Box03
+    4300012: Handle01
+    4300014: Case01
+    4300016: Box01
+    4300018: Handle01
+    4300020: Box02
+    4300022: Handle01
+    4300024: Box03
+    4300026: Handle01
+    4300028: Case01
+    4300030: Box01
+    4300032: Handle01
+    4300034: Box02
+    4300036: Handle01
+    4300038: Box03
+    4300040: Handle01
+    6400000: Box01
+    6400002: Box01 1
+    6400004: Box01 2
+    6400006: Box02
+    6400008: Box02 1
+    6400010: Box02 2
+    6400012: Box03
+    6400014: Box03 1
+    6400016: Box03 2
+    6400018: Case01
+    6400020: Case01 1
+    6400022: Case01 2
+    6400024: Handle01
+    6400026: Handle01 1
+    6400028: Handle01 2
+    6400030: Handle01 3
+    6400032: Handle01 4
+    6400034: Handle01 5
+    6400036: Handle01 6
+    6400038: Handle01 7
+    6400040: Handle01 8
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 35
+    meshCompression: 0
+    addColliders: 1
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
