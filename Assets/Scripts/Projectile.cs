@@ -75,6 +75,8 @@ public class Projectile : Photon.MonoBehaviour {
 		{
 			Debug.Log ("Hitted a tile");
 			IReshrink reshrinkObject = hittedTile.GetComponent<IReshrink>();
+			if(reshrinkObject == null)
+				reshrinkObject = hittedTile.transform.parent.GetComponent<IReshrink>();
 			if(reshrinkObject != null)
 			{
 				//Debug.Log("Hitted :" + hit.collider.gameObject.name);
@@ -89,8 +91,14 @@ public class Projectile : Photon.MonoBehaviour {
 
 	protected virtual void OnHitObject(RaycastHit hit)
 	{
-		IReshrink reshrinkObject = hit.collider.gameObject.GetComponent<IReshrink>();
+
+		GameObject targetObj = hit.collider.gameObject;
+		IReshrink reshrinkObject = targetObj.GetComponent<IReshrink>();
 		bool shouldDestroy = true;
+		if (reshrinkObject == null) {
+			reshrinkObject = targetObj.transform.parent.GetComponent<IReshrink> ();
+			targetObj = targetObj.transform.parent.gameObject;
+		}
 		if(reshrinkObject != null)
 		{
 
@@ -98,7 +106,7 @@ public class Projectile : Photon.MonoBehaviour {
 
 			if(photonView.isMine && hit.collider.name != "OurPlayer")
 			{
-				hit.collider.GetComponent<PhotonView>().RPC("Reshrink",PhotonTargets.All,shrinkPower);
+				targetObj.GetComponent<PhotonView>().RPC("Reshrink",PhotonTargets.All,shrinkPower);
 			}
 			else
 				shouldDestroy = false;
@@ -111,14 +119,20 @@ public class Projectile : Photon.MonoBehaviour {
 
 	protected virtual void OnHitObject(Collider hit)
 	{
-		IReshrink reshrinkObject = hit.GetComponent<IReshrink>();
+
+		GameObject targetObj = hit.gameObject;
+		IReshrink reshrinkObject = targetObj.GetComponent<IReshrink>();
 		bool shouldDestroy = true;
+		if (reshrinkObject == null) {
+			reshrinkObject = targetObj.transform.parent.GetComponent<IReshrink> ();
+			targetObj = targetObj.transform.parent.gameObject;
+		}
 		if(reshrinkObject != null)
 		{
 			//Debug.Log("Hitted :" + hit.collider.gameObject.name);
 			if(photonView.isMine && hit.gameObject.name != "OurPlayer")
 			{
-				hit.gameObject.GetComponent<PhotonView>().RPC("Reshrink",PhotonTargets.All,shrinkPower);
+				targetObj.GetComponent<PhotonView>().RPC("Reshrink",PhotonTargets.All,shrinkPower);
 			}
 			else
 				shouldDestroy = false;

@@ -28,10 +28,10 @@ public class MapController : MonoBehaviour {
 		
 	}
 
-	Vector3[] positions;
-	Quaternion[] rotations;
-	Vector3[] scales;
-	GameObject[] objects;
+	List<Vector3> positions;
+	List<Quaternion> rotations;
+	List<Vector3> scales;
+	List<GameObject> shrinkObjects;
 
 	public GameObject tilePrefab;
 	public int MapSizeX;
@@ -48,28 +48,35 @@ public class MapController : MonoBehaviour {
 	public void Start()
 	{
 		//GenerateMap();
-		objects = GameObject.FindGameObjectsWithTag ("NetworkingObject");
-		positions = new Vector3[objects.Length];
-		rotations = new Quaternion[objects.Length];
-		scales = new Vector3[objects.Length];
+		GameObject[] objects = GameObject.FindGameObjectsWithTag ("NetworkingObject");
+		positions = new List<Vector3> ();
+		rotations = new List<Quaternion> ();
+		scales = new List<Vector3> ();
+		shrinkObjects = new List<GameObject> ();
+		                          
+	
 		for(int i = 0; i < objects.Length; ++i)
 		{
-			positions[i] = objects[i].transform.position;
-			rotations[i] = objects[i].transform.rotation;
-			scales[i] = objects[i].transform.localScale;
+			if(objects[i].GetComponent<ReshrikingEntity>())
+			{
+				positions.Add (objects[i].transform.position);
+				rotations.Add (objects[i].transform.rotation);
+				scales.Add ( objects[i].transform.localScale);
+				shrinkObjects.Add (objects[i]);
+			}
 		}
 	}
 
 	public void Reset()
 	{
-		for (int i = 0; i < objects.Length; ++i) {
-			if(!objects[i].GetActive())
-				objects[i].SetActive(true);
+		for (int i = 0; i < shrinkObjects.Count; ++i) {
+			if(!shrinkObjects[i].GetActive())
+				shrinkObjects[i].SetActive(true);
 
-			objects[i].transform.position = positions[i];
-			objects[i].transform.rotation = rotations[i];
-			objects[i].transform.localScale = scales[i];
-			objects[i].GetComponent<ReshrikingEntity>().SetMultipler(1);
+			shrinkObjects[i].transform.position = positions[i];
+			shrinkObjects[i].transform.rotation = rotations[i];
+			shrinkObjects[i].transform.localScale = scales[i];
+			shrinkObjects[i].GetComponent<ReshrikingEntity>().SetMultipler(1);
 		}
 	}
 

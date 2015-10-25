@@ -13,7 +13,7 @@ public class NetworkManager : MonoBehaviour {
 	GameObject mainMenu;
 
 	public Transform[] spawnPoints;
-	bool[] spawnIsTaken;
+	public bool[] spawnIsTaken;
 
 	Text winText;
 
@@ -34,6 +34,8 @@ public class NetworkManager : MonoBehaviour {
 	public bool forceStartGame = false;
 	bool inGame = false;
 
+	Transform spawnPoint;
+
 
 	// Use this for initialization
 	void OnEnable () {
@@ -51,7 +53,6 @@ public class NetworkManager : MonoBehaviour {
 			Debug.LogError ("You need to put the WaitingGameMenu into NetworkManager");
 		mainMenu .SetActive (true);
 
-		aWinText.SetActive (false);
 		aWaitMenu.SetActive (false);
 		spawnIsTaken = new bool[spawnPoints.Length];
 		winText = aWinText.GetComponent<Text> ();
@@ -141,16 +142,14 @@ public class NetworkManager : MonoBehaviour {
 
 		if (roomOwner) {
 			ExitGames.Client.Photon.Hashtable table = new ExitGames.Client.Photon.Hashtable ();
-			table.Add ("AvailableSpawns", spawnIsTaken);
 			table.Add ("TotalPlayers", 0);
 			table.Add ("TotalDead", 0);
 			PhotonNetwork.room.SetCustomProperties (table);
 		} else {
-			spawnIsTaken = (bool[])PhotonNetwork.room.customProperties ["AvailableSpawns"];
 			totalPlayers = (int)PhotonNetwork.room.customProperties ["TotalPlayers"];
 			totalDead = (int)PhotonNetwork.room.customProperties ["TotalDead"];
 		}
-
+		spawnPoint = GetSpawnPoint ();
 		aWaitMenu.SetActive (true);
 		StartCoroutine ("WaitForPlayers");
 
@@ -163,26 +162,19 @@ public class NetworkManager : MonoBehaviour {
 		SpawnMyPlayer ();
 		
 		ExitGames.Client.Photon.Hashtable customPropTable = new ExitGames.Client.Photon.Hashtable ();
-		customPropTable.Add ("AvailableSpawns", spawnIsTaken);
-		customPropTable.Add ("TotalPlayers", totalPlayers);
+		customPropTable.Add ("TotalPlayers", PhotonNetwork.room.playerCount);
 		customPropTable.Add ("TotalDead", 0);
 		if (!createSandboxRoom && roomOwner) {
 			PhotonNetwork.room.open = false;
 		}
+
 		PhotonNetwork.room.SetCustomProperties (customPropTable);
 		inGame = true;
 	}
 
 	public Transform GetSpawnPoint()
 	{
-		for (int i = 0; i < spawnPoints.Length; ++i) {
-			if(spawnIsTaken[i])
-				continue;
-
-			spawnIsTaken[i] = true;
-			return spawnPoints[i];
-		}
-		return null;
+		return spawnPoints [PhotonNetwork.room.playerCount - 1];
 	}
 
 	public string RegisterPlayerName(string name)
@@ -248,34 +240,32 @@ public class NetworkManager : MonoBehaviour {
 	void KillPlayer(string name)
 	{
 		totalDead ++;
-		if( totalPlayers - totalDead == 1 || totalPlayers == 1)
+		if( PhotonNetwork.room.playerCount - totalDead == 1 || totalPlayers == 1)
 		{
 			StartCoroutine("GameOver");
 		}
 	}
 
+
+	[PunRPC]
+	void RegisterWinner(string name)
+	{
+
+		winText.text = name;
+	}
+
 	IEnumerator GameOver()
 	{
+		winText.text = "You Loose!";
 		if(!weAreDead)
 		{
-			ExitGames.Client.Photon.Hashtable table = new ExitGames.Client.Photon.Hashtable ();
-			table.Add ("Winner", PhotonNetwork.playerName);
-			PhotonNetwork.room.SetCustomProperties(table);
-			OurLog("FoundWinner");
+			this.GetComponent<PhotonView>().RPC("RegisterWinner",PhotonTargets.All,
+			                                    PhotonNetwork.playerName);
 		}
 		
 		yield return new WaitForSeconds (1);
-
-
-		string winnerText = "You Loose!";
-		OurLog ("Just about to read winner");
-		if (PhotonNetwork.room.customProperties.ContainsKey ("Winner")) {
-			winnerText = ((string)PhotonNetwork.room.customProperties["Winner"]) + " WINS!!";
-		}
-		OurLog ("ReadWinner");
 		winText.enabled = true;
 		winText.rectTransform.localScale = Vector3.zero;
-		winText.text = winnerText;
 		for (float currentScale = 0; currentScale <=1; currentScale+=Time.deltaTime) {
 			winText.rectTransform.localScale = new Vector3(currentScale,
 			                                               currentScale,
@@ -319,12 +309,11 @@ public class NetworkManager : MonoBehaviour {
 
 		PhotonNetwork.playerName = RegisterPlayerName(PhotonNetwork.playerName);
 
-		Transform spawn = GetSpawnPoint ();
 
-		if (spawn == null) {
+		if (spawnPoint == null) {
 			Debug.LogError("No spawn points left in GlobalScripts - NetworkManager");
 		}
-		player = (GameObject)PhotonNetwork.Instantiate ("Prefabs/NetworkedPlayer",spawn.transform.position, spawn.transform.rotation, 0);
+		player = (GameObject)PhotonNetwork.Instantiate ("Prefabs/NetworkedPlayer",spawnPoint.transform.position, spawnPoint.transform.rotation, 0);
 		player.name = "OurPlayer";
 		player.GetComponent<RigidbodyFirstPersonController> ().Ownership = true;
 		player.GetComponentInChildren<Camera> ().enabled = true;
