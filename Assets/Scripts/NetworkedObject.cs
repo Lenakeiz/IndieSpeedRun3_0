@@ -16,6 +16,7 @@ public class NetworkedObject : MonoBehaviour {
 	void Start () {
 		realPosition = transform.position;
 		realRotation = transform.rotation;
+		StartCoroutine ("WakeBody");
 	}
 
 	public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -26,6 +27,15 @@ public class NetworkedObject : MonoBehaviour {
 		} else {
 			this.transform.position = (Vector3)stream.ReceiveNext();
 			this.transform.rotation = (Quaternion)stream.ReceiveNext();
+		}
+	}
+
+	IEnumerator WakeBody()
+	{
+		while (true) {
+			if (GetComponent<Rigidbody> ())
+				GetComponent<Rigidbody> ().WakeUp ();
+			yield return new WaitForSeconds (1);
 		}
 	}
 	

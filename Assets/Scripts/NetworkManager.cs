@@ -22,6 +22,7 @@ public class NetworkManager : MonoBehaviour {
 	public Toggle aSandboxToggle;
 	public Text numPlayerText;
 	public GameObject aWaitMenu;
+	public GameObject waitTextPanal;
 
 
 	public int totalPlayers = 0;
@@ -51,11 +52,15 @@ public class NetworkManager : MonoBehaviour {
 			Debug.LogError("You need to put the NumPlayerText into NetworkManager");
 		if (aWaitMenu == null)
 			Debug.LogError ("You need to put the WaitingGameMenu into NetworkManager");
+		if (waitTextPanal == null)
+			Debug.LogError ("You need to put the WaitTextPanel into NetworkManager");
+
 		mainMenu .SetActive (true);
 
 		aWaitMenu.SetActive (false);
 		spawnIsTaken = new bool[spawnPoints.Length];
 		winText = aWinText.GetComponent<Text> ();
+		waitTextPanal.SetActive (false);
 		if(winText)
 			winText.enabled = false;
 	}
@@ -150,7 +155,10 @@ public class NetworkManager : MonoBehaviour {
 			totalDead = (int)PhotonNetwork.room.customProperties ["TotalDead"];
 		}
 		spawnPoint = GetSpawnPoint ();
-		aWaitMenu.SetActive (true);
+		waitTextPanal.SetActive (true);
+		if (roomOwner) {
+			aWaitMenu.SetActive (true);
+		}
 		StartCoroutine ("WaitForPlayers");
 
 	}
@@ -159,6 +167,7 @@ public class NetworkManager : MonoBehaviour {
 	void StartGame()
 	{
 		aWaitMenu.SetActive (false);
+		waitTextPanal.SetActive (false);
 		SpawnMyPlayer ();
 		
 		ExitGames.Client.Photon.Hashtable customPropTable = new ExitGames.Client.Photon.Hashtable ();
@@ -220,7 +229,7 @@ public class NetworkManager : MonoBehaviour {
 				numPlayerText.text = "Waiting for players : " + PhotonNetwork.room.playerCount + "/" + minimumPlayers;
 			}
 
-			if(createSandboxRoom && forceStartGame)
+			if( forceStartGame)
 			{
 				break;
 			}

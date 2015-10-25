@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: eae925a76d406af4b8cf8970f7587164
-timeCreated: 1445788534
+guid: 0dfed3c8440628f4c8889c42cd5b21d4
+timeCreated: 1445792326
 licenseType: Free
 ModelImporter:
   serializedVersion: 18
@@ -9,7 +9,7 @@ ModelImporter:
     400000: //RootNode
     2300000: //RootNode
     3300000: //RootNode
-    4300000: newspaper
+    4300000: Carton
   materials:
     importMaterials: 1
     materialName: 0
@@ -33,7 +33,7 @@ ModelImporter:
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 5
+    globalScale: 10
     meshCompression: 0
     addColliders: 0
     importBlendShapes: 1
