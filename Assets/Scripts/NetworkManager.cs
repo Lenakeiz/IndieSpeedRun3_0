@@ -265,7 +265,7 @@ public class NetworkManager : MonoBehaviour {
 
 	IEnumerator GameOver()
 	{
-		winText.text = "You Loose!";
+		winText.text = "You Lose!";
 		if(!weAreDead)
 		{
 			this.GetComponent<PhotonView>().RPC("RegisterWinner",PhotonTargets.All,
