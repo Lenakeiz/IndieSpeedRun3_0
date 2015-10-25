@@ -20,7 +20,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             public AnimationCurve SlopeCurveModifier = new AnimationCurve(new Keyframe(-90.0f, 1.0f), new Keyframe(0.0f, 1.0f), new Keyframe(90.0f, 0.0f));
             [HideInInspector] public float CurrentTargetSpeed = 8f;
 
-            private bool m_Running;
+			private bool m_Running;
 			public enum MovementEnum{Idle, Strafe, Backwards, Forwards}
 			public MovementEnum currEnum = MovementEnum.Idle;
 
@@ -30,20 +30,17 @@ namespace UnityStandardAssets.Characters.FirstPerson
 				if (input.x > 0 || input.x < 0)
 				{
 					//strafe
-					currEnum = MovementEnum.Strafe;
 					CurrentTargetSpeed = StrafeSpeed;
 				}
 				if (input.y < 0)
 				{
 					//backwards
-					currEnum = MovementEnum.Backwards;
 					CurrentTargetSpeed = BackwardSpeed;
 				}
 				if (input.y > 0)
 				{
 					//forwards
 					//handled last as if strafing and moving forward at the same time forwards speed should take precedence
-					currEnum = MovementEnum.Forwards;
 					CurrentTargetSpeed = ForwardSpeed;
 				}
 
@@ -80,6 +77,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 			public float cobwebMultiplier = 0.5f;
 
 		}
+
 
         public Camera cam;
         public MovementSettings movementSettings = new MovementSettings();
@@ -142,7 +140,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
             m_RigidBody = GetComponent<Rigidbody>();
             m_Capsule = GetComponent<CapsuleCollider>();
 			m_gunController = GetComponent<GunController>();
-			m_animator = GetComponent<Animator>();
             mouseLook.Init (transform, cam.transform);
 			OnDeath += HandleDeath;
 			m_isMine = false;
@@ -179,19 +176,11 @@ namespace UnityStandardAssets.Characters.FirstPerson
 								
 					if (CrossPlatformInputManager.GetButtonDown("Jump") && !m_Jump)
 					{
-						if(m_animator != null)
-						{
-							m_animator.SetBool("isJumping", true);
-						}
 						m_Jump = true;
 					}
 					
 					if(Input.GetMouseButton(0))
 					{
-						if(m_animator != null)
-						{
-							m_animator.SetTrigger("shoot");
-						}
 						m_gunController.Shoot(multiplier);
 					}
 				}
@@ -222,6 +211,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 					if (m_RigidBody.velocity.sqrMagnitude <
 						(movementSettings.CurrentTargetSpeed * movementSettings.CurrentTargetSpeed)) {
 
+
 						switch (movementSettings.currEnum) {
 						case MovementSettings.MovementEnum.Forwards:
 							if(m_animator != null)
@@ -247,8 +237,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
 						default:
 						break;
 						}
-
-
 						m_RigidBody.AddForce (desiredMove * SlopeMultiplier (), ForceMode.Impulse);
 					}
 				
@@ -336,7 +324,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             {
                 // Rotate the rigidbody velocity to match the new direction that the character is looking
                 Quaternion velRotation = Quaternion.AngleAxis(transform.eulerAngles.y - oldYRotation, Vector3.up);
-				m_RigidBody.velocity = velRotation*m_RigidBody.velocity;
+                m_RigidBody.velocity = velRotation*m_RigidBody.velocity;
             }
         }
 
