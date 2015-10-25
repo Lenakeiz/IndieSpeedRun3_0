@@ -90,7 +90,7 @@ public class ReshrikingEntity : MonoBehaviour, IReshrink {
 
 	protected virtual void UpdateScale()
 	{
-		string sound = "Shrink"+Random.Range(1,3).ToString();
+		string sound = "Shrink1";
 		PlaySound(sound);
 		transform.localScale = initialScale * multiplier;
 		if(this.GetComponent<Rigidbody>())
