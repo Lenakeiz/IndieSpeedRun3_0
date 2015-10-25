@@ -302,7 +302,7 @@ GameObject:
   - 222: {fileID: 22211728}
   - 114: {fileID: 11448166}
   m_Layer: 5
-  m_Name: Panel
+  m_Name: WaitTextPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -576,10 +576,10 @@ MonoBehaviour:
   aSandboxToggle: {fileID: 11493486}
   numPlayerText: {fileID: 11482018}
   aWaitMenu: {fileID: 124938}
-  waitTextPanal: {fileID: 0}
+  waitTextPanal: {fileID: 177994}
   totalPlayers: 0
   totalDead: 0
-  minPlayerWaitTime: 7
+  minPlayerWaitTime: 10
   createSandboxRoom: 0
   forceStartGame: 0
 --- !u!114 &11422844
