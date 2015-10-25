@@ -6,17 +6,12 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: WebTile
+  m_Name: Web_Tile
   m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
-<<<<<<< HEAD
   m_ShaderKeywords: _NORMALMAP
-=======
-  m_ShaderKeywords: _ALPHATEST_ON
->>>>>>> origin/master
   m_LightmapFlags: 5
-  m_CustomRenderQueue: 2450
-  stringTagMap:
-    RenderType: TransparentCutout
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
   m_SavedProperties:
     serializedVersion: 2
     m_TexEnvs:
@@ -95,7 +90,7 @@ Material:
       data:
         first:
           name: _Cutoff
-        second: .289999992
+        second: .5
       data:
         first:
           name: _ZWrite
@@ -131,11 +126,7 @@ Material:
       data:
         first:
           name: _Mode
-        second: 1
-      data:
-        first:
-          name: _InvFade
-        second: 1.86000001
+        second: 0
     m_Colors:
       data:
         first:
@@ -145,7 +136,3 @@ Material:
         first:
           name: _Color
         second: {r: .356862754, g: .356862754, b: .356862754, a: 1}
-      data:
-        first:
-          name: _TintColor
-        second: {r: 1, g: 1, b: 1, a: 1}
